@@ -26,13 +26,6 @@
 				</tr>
 			</table>
 			<p:menubar>
-				<p:submenu label="#{msgs.tituloOpciones}" icon="ui-icon-document">
-					<p:menuitem value="#{msgs.enlaceListado}"
-						action="#{controller.listado}" />
-					<p:separator />
-					<p:menuitem value="#{msgs.enlaceAlta}" action="alta"
-						actionListener="#{alumno.iniciaAlumno}" />
-				</p:submenu>
 				<p:submenu label="#{msgs.textoIdioma}" icon="ui-icon-document" style="float:right">
 					<p:menuitem value="#{msgs.enlaceIdiomaES}"
 						actionListener="#{settings.setSpanish}" update="@all" immediate="true">
