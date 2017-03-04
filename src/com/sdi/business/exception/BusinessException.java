@@ -1,16 +1,9 @@
 package com.sdi.business.exception;
 
-/**
- * Represent any system exception that prevents the business layer to get its
- * work done.
- *  The caller to any method that throws this exception it is supposed 
- *  to do anything as it represent far problems.
- *  
- */
-public class BusinessException extends RuntimeException {
+public class BusinessException extends Exception {
+	private static final long serialVersionUID = 4001710687990554589L;
 
 	public BusinessException() {
-		super();
 	}
 
 	public BusinessException(String message) {
@@ -25,5 +18,4 @@ public class BusinessException extends RuntimeException {
 		super(message, cause);
 	}
 
-	private static final long serialVersionUID = 1058931814311702510L;
 }
