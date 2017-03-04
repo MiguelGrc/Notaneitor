@@ -6,11 +6,37 @@
 	template="/templates/template-general.xhtml">
 
 	<ui:define name="titulo">
-      #{msgs.tituloHead}
-    </ui:define>
+    	#{msgs.tituloOperacionLogin}
+  	</ui:define>
 
 	<ui:define name="cuerpo">
 		<h:form id="form-principal">
+			<p:panel header="#{msgs.tituloOperacionLogin}">
+				<p:panelGrid id="Grid" columns="2" cellpadding="5">
+				  #{msgs.username} 
+				  <h:panelGroup>
+						<p:inputText value="#{login.user.login}"
+							placeholder="#{msgs.username}" required="true"
+							requiredMessage="#{msgs.formLogin_username_requiredMessage}"
+							id="username">
+						</p:inputText>
+						<p:message for="username" />
+					</h:panelGroup>
+			  
+				  #{msgs.password} 
+				  <h:panelGroup>
+						<p:password value="#{login.user.password}"
+							placeholder="#{msgs.password}" required="true"
+							requiredMessage="#{msgs.formLogin_password_requiredMessage}"
+							id="password">
+						</p:password>
+						<p:message for="password" />
+					</h:panelGroup>
+						<p:commandButton value="#{msgs.botonLogin}"
+							action="#{login.login}" update="Grid" process="@form">
+						</p:commandButton>
+				</p:panelGrid>
+			</p:panel>
 		</h:form>
 	</ui:define>
 

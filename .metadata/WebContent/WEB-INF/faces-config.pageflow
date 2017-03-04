@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14246831526460" configfile="/Notaneitorv2_6/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="288" y="48" id="pf14882245528740" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14882245528741 pf148844645029117 pf148844645029118" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="480" y="60" id="pf14882245528742" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14882245528741" path="/error.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="altaForm.xhtml" x="576" y="341" id="pf14884461808911" referenceLink="//@navigationRule.5/@navigationCase.2/@toViewId|" outlinks="pf14884461808912 pf14884461808913 pf14884461808914" inlinks="pf14884461808915 pf14884461808916 pf14884461808914 pf14884461808917" path="/altaForm.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" y="360" id="pf14884461808918" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" outlinks="pf14884461808919 pf14884461808915" inlinks="pf148844645029117" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="listado.xhtml" x="120" y="276" id="pf148844618089110" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" outlinks="pf148844618089111 pf148844618089112 pf148844618089113 pf14884461808916" inlinks="pf14884461808919 pf148844618089111 pf148844618089113 pf14884461808912 pf14884461808913 pf148844618089114 pf148844618089115 pf148844645029118" path="/listado.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="editForm.xhtml" x="457" y="144" id="pf148844618089116" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf148844618089114 pf148844618089115 pf14884461808917" inlinks="pf148844618089112" path="/editForm.xhtml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14246831526460" configfile="/Notaneitor/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="288" y="48" id="pf14882245528740" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14882245528741" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="528" y="96" id="pf14882245528742" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14882245528741" path="/error.xhtml"/>
   <links id="pf14882245528741" target="pf14882245528742" source="pf14882245528740" outcome="error"/>
-  <links id="pf14884461808919" target="pf148844618089110" source="pf14884461808918" outcome="exito" fromaction="#{controller.listado}"/>
-  <links id="pf14884461808915" target="pf14884461808911" source="pf14884461808918" outcome="alta"/>
-  <links id="pf148844618089111" target="pf148844618089110" source="pf148844618089110" outcome="exito" fromaction="#{controller.baja(valumno)}"/>
-  <links id="pf148844618089112" target="pf148844618089116" source="pf148844618089110" outcome="editar"/>
-  <links id="pf148844618089113" target="pf148844618089110" source="pf148844618089110" outcome="exito" fromaction="#{controller.listado}"/>
-  <links id="pf14884461808916" target="pf14884461808911" source="pf148844618089110" outcome="alta"/>
-  <links id="pf14884461808912" target="pf148844618089110" source="pf14884461808911" outcome="exito" fromaction="#{controller.salva}"/>
-  <links id="pf14884461808913" target="pf148844618089110" source="pf14884461808911" outcome="exito" fromaction="#{controller.listado}"/>
-  <links id="pf14884461808914" target="pf14884461808911" source="pf14884461808911" outcome="alta"/>
-  <links id="pf148844618089114" target="pf148844618089110" source="pf148844618089116" outcome="exito" fromaction="#{controller.salva}"/>
-  <links id="pf148844618089115" target="pf148844618089110" source="pf148844618089116" outcome="exito" fromaction="#{controller.listado}"/>
-  <links id="pf14884461808917" target="pf14884461808911" source="pf148844618089116" outcome="alta"/>
-  <links id="pf148844645029117" target="pf14884461808918" source="pf14882245528740" outcome="casa"/>
-  <links id="pf148844645029118" target="pf148844618089110" source="pf14882245528740" outcome="listar"/>
 </pageflow:Pageflow>
