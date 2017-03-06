@@ -9,7 +9,7 @@ import com.sdi.business.Services;
 import com.sdi.business.UserService;
 import com.sdi.dto.User;
 
-@ManagedBean(name = "login")
+@ManagedBean(name = "register")
 @SessionScoped
 public class RegisterBean implements Serializable {
 	private static final long serialVersionUID = 1L;

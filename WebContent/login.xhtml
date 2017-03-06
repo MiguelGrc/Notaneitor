@@ -10,34 +10,37 @@
   	</ui:define>
 
 	<ui:define name="cuerpo">
-		<h:form id="form-principal">
-			<p:panel header="#{msgs.tituloOperacionLogin}">
-				<p:panelGrid id="Grid" columns="2" cellpadding="5">
+		<center>
+			<h:form id="form-principal">
+				<p:panel header="#{msgs.tituloOperacionLogin}">
+					<p:panelGrid id="Grid" columns="2" cellpadding="5">
 				  #{msgs.username} 
 				  <h:panelGroup>
-						<p:inputText value="#{login.login}"
-							placeholder="#{msgs.username}" required="true"
-							requiredMessage="#{msgs.formLogin_username_requiredMessage}"
-							id="username">
-						</p:inputText>
-						<p:message for="username" />
-					</h:panelGroup>
+							<p:inputText value="#{login.login}"
+								placeholder="#{msgs.username}" required="true"
+								requiredMessage="#{msgs.formLogin_username_requiredMessage}"
+								id="username">
+							</p:inputText>
+							<p:message for="username" />
+						</h:panelGroup>
 			  
 				  #{msgs.password} 
 				  <h:panelGroup>
-						<p:password value="#{login.password}"
-							placeholder="#{msgs.password}" required="true"
-							requiredMessage="#{msgs.formLogin_password_requiredMessage}"
-							id="password">
-						</p:password>
-						<p:message for="password" />
-					</h:panelGroup>
+							<p:password value="#{login.password}"
+								placeholder="#{msgs.password}" required="true"
+								requiredMessage="#{msgs.formLogin_password_requiredMessage}"
+								id="password">
+							</p:password>
+							<p:message for="password" />
+						</h:panelGroup>
 						<p:commandButton value="#{msgs.botonLogin}"
 							action="#{login.login}" update="Grid" process="@form">
 						</p:commandButton>
-				</p:panelGrid>
-			</p:panel>
-		</h:form>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</center>
+		<p:commandLink action="/register.xhtml" value="HOLA"></p:commandLink>
 	</ui:define>
 
 	<ui:define name="pie">

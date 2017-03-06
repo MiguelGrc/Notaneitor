@@ -20,7 +20,29 @@
 		<managed-bean-class>com.sdi.presentation.LoginBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>register</managed-bean-name>
+		<managed-bean-class>com.sdi.presentation.RegisterBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
+	<navigation-rule>
+		<from-view-id>login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{login.login}</from-action>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{login.login}</from-action>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>register</from-outcome>
+			<to-view-id>/register.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>

@@ -50,7 +50,7 @@ public class LoginBean implements Serializable {
 			}
 			else{
 				//Devolver a la misma página
-				return "error";
+				return "failure";
 			}
 			
 		} catch (BusinessException e) {

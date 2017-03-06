@@ -10,43 +10,53 @@
   	</ui:define>
 
 	<ui:define name="cuerpo">
-		<p:panelGrid id="Grid" columns="2" cellpadding="5">
-  #{msgs.username} 
-  <h:panelGroup>
-			<p:inputText value="#{registrator.username}" required="true"
-				requiredMessage="#{msgs.form_username_requiredMessage}"
-				validatorMessage="#{msgs.form_username_validatorMessage}"
-				id="username">
-			</p:inputText>
-			<p:message for="username" />
-		</h:panelGroup>
+		<center>
+			<h:form id="form-registro">
+				<p:panel header="#{msgs.tituloOperacionRegistro}">
+					<p:panelGrid id="Grid" columns="2" cellpadding="5">
+				  #{msgs.username} 
+				  <h:panelGroup>
+							<p:inputText value="#{register.login}"
+								placeholder="#{msgs.username}" required="true"
+								requiredMessage="#{msgs.form_username_requiredMessage}"
+								validatorMessage="#{msgs.form_username_validatorMessage}"
+								id="username">
+							</p:inputText>
+							<p:message for="username" />
+						</h:panelGroup>
   
-  #{msgs.password} 
-  <h:panelGroup>
-			<p:inputText value="#{registrator.password}" required="true"
-				requiredMessage="#{msgs.form_password_requiredMessage}"
-				validatorMessage="#{msgs.form_password_validatorMessage}"
-				id="password">
-				<f:validateLength minimum="8" />
-				<f:validateRegex pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,20})$"/>
-			</p:inputText>
-			<p:message for="password" />
-		</h:panelGroup>
-  
-  #{msgs.email}
-  <h:panelGroup>
-			<p:inputText value="#{username.email}" required="true"
-				requiredMessage="#{msgs.form_email_requiredMessage}"
-				validatorMessage="#{msgs.form_email_validatorMessage}"
-				id="email">
-				<f:validateRegex pattern=".+@.+\.[a-z]+" />
-			</p:inputText>
-			<p:message for="email" />
-		</h:panelGroup>
-		<p:commandButton value="#{msgs.botonRegister}"
-			action="#{registrator.register}" update="Grid" process="@form">
-		</p:commandButton>
-	</p:panelGrid>
+				  #{msgs.password} 
+				  <h:panelGroup>
+							<p:password value="#{register.password}"
+								placeholder="#{msgs.password}" required="true"
+								requiredMessage="#{msgs.form_password_requiredMessage}"
+								validatorMessage="#{msgs.form_password_validatorMessage}"
+								id="password">
+								<f:validateLength minimum="8" />
+								<f:validateRegex
+									pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,20})$" />
+							</p:password>
+							<p:message for="password" />
+						</h:panelGroup>
+				  
+				  #{msgs.email}
+				  <h:panelGroup>
+							<p:inputText value="#{register.email}"
+								placeholder="#{msgs.email}" required="true"
+								requiredMessage="#{msgs.form_email_requiredMessage}"
+								validatorMessage="#{msgs.form_email_validatorMessage}"
+								id="email">
+								<f:validateRegex pattern=".+@.+\.[a-z]+" />
+							</p:inputText>
+							<p:message for="email" />
+						</h:panelGroup>
+						<p:commandButton value="#{msgs.botonRegister}"
+							action="#{register.register}" update="Grid" process="@form">
+						</p:commandButton>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</center>
 	</ui:define>
 
 	<ui:define name="pie">
