@@ -12,12 +12,12 @@
 	</application>
 	<managed-bean>
 		<managed-bean-name>settings</managed-bean-name>
-		<managed-bean-class>com.sdi.presentation.BeanSettings</managed-bean-class>
+		<managed-bean-class>com.sdi.presentation.SettingsBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>login</managed-bean-name>
-		<managed-bean-class>com.sdi.presentation.BeanLogin</managed-bean-class>
+		<managed-bean-class>com.sdi.presentation.LoginBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 

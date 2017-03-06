@@ -12,17 +12,30 @@ import com.sdi.dto.User;
 
 @ManagedBean(name = "login")
 @SessionScoped
-public class BeanLogin implements Serializable {
+public class LoginBean implements Serializable {
 	private static final long serialVersionUID = -3194940809153687908L;
 	
-	private User user = new User();
-	
-	public User getUser() {
-		return user;
+	private String login;
+	private String password;
+
+
+	public String getLogin() {
+		return login;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 
@@ -30,7 +43,7 @@ public class BeanLogin implements Serializable {
 		UserService service;		
 		try {
 			service = Services.getUserService();
-			User u = service.findLoggableUser(user.getLogin(), user.getPassword());
+			User u = service.findLoggableUser(login, password);
 			if(u != null){
 				//Filtrar si es admin o no. Admin->listarUsuarios / NoAdmin->listadoTareas
 				return "login";

@@ -3,15 +3,14 @@ package com.sdi.presentation;
 import java.io.Serializable;
 import java.util.Locale;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.faces.bean.*;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @ManagedBean(name = "settings")
 @SessionScoped
-public class BeanSettings implements Serializable {
+public class SettingsBean implements Serializable {
 	private static final long serialVersionUID = 2L;
 	private static final Locale ENGLISH = new Locale("en");
 	private static final Locale SPANISH = new Locale("es");
