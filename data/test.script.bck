@@ -51,9 +51,9 @@ GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CHARACTER_DATA TO PUBLIC
 GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.SQL_IDENTIFIER TO PUBLIC
 GRANT DBA TO SA
 SET SCHEMA PUBLIC
-Insert into TUsers VALUES(1,'usuario1@gmail.com',FALSE,'usuario1','usuario1','ENABLED');
-Insert into TUsers VALUES(2,'usuario2@gmail.com',FALSE,'usuario2','usuario2','ENABLED');
-Insert into TUsers VALUES(3,'administrador1@gmail.com',TRUE,'administrador1','administrador1','ENABLED');
+Insert into TUsers VALUES(1,'user1@gmail.com',FALSE,'user1','user1','ENABLED');
+Insert into TUsers VALUES(2,'user2@gmail.com',FALSE,'user2','user2','ENABLED');
+Insert into TUsers VALUES(3,'admin1@gmail.com',TRUE,'admin1','admin1','ENABLED');
 Insert into TTasks VALUES(1,'firstTaskCreated','2017-01-01', null, '2017-01-01','First Task',null,1);
 Insert into TTasks VALUES(2,'secondTaskCreated','2017-01-01', null, '2017-06-30','Second Task',null,1);
 Insert into TCategories VALUES(1,'FirstCategory',1);

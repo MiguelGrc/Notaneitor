@@ -5,9 +5,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/template-general.xhtml">
 
-	<ui:define name="titulo">
+	<!-- <ui:define name="titulo">
     	#{msgs.tituloOperacionUsuarios}
-  	</ui:define>
+  	</ui:define> -->
 
 	<ui:define name="cuerpo">
 		<center>
@@ -15,8 +15,8 @@
 				<p:panel header="#{msgs.tituloOperacionUsuarios}">
 					<p:dataTable id="table-users" var="user" value="#{users.users}" selectionMode="single" 
 						selection="#{users.selected}" rowKey="#{user.id}">
-						<p:ajax event="rowSelect" update="delete-button" listener="#{users.onRowSelect}" />
-						<p:column headerText="#{msgs.tituloOperacionLogin}" sortBy="#{user.login}">
+						<p:ajax event="rowSelect" update="status-button delete-button" listener="#{users.onRowSelect}" />
+						<p:column headerText="#{msgs.tituloColumnaLogin}" sortBy="#{user.login}">
 							<h:outputText value="#{user.login}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaEmail}" sortBy="#{user.email}">
@@ -29,8 +29,17 @@
 							<h:outputText value="#{user.status}" />
 						</p:column>
 						<f:facet name="footer">
-				            <p:commandButton id="delete-button" process="table-users" update="form-users" icon="ui-icon-closethick" 
-				            	value="#{msgs.borrarUsuario}" action="#{users.baja()}" disabled="#{users.disabled}" />
+							<p:commandButton id="status-button" process="table-users" update="form-users" value="#{msgs.cambiarEstado}"
+				            	action="#{users.cambiarEstado()}" disabled="#{users.disabled}" icon="ui-icon-transfer-e-w" styleClass="ui-priority-primary" >
+				            	<p:confirm header="#{msgs.headerConfirmacion}" message="#{msgs.mensajeConfirmacion}" icon="ui-icon-alert" />
+			            	</p:commandButton>
+				            <p:commandButton id="delete-button" process="table-users" update="form-users" value="#{msgs.borrarUsuario}"
+				            	action="#{users.baja()}" disabled="#{users.disabled}" icon="ui-icon-closethick" styleClass="ui-priority-secondary" />
+				            	
+			            	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+       							<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						    </p:confirmDialog>
 				        </f:facet>
 					</p:dataTable>
 				</p:panel>
