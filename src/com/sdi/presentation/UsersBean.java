@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.event.SelectEvent;
+
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.dto.User;
@@ -16,6 +18,24 @@ import com.sdi.dto.User;
 public class UsersBean {
 	
 	private List<User> users;
+	private User selected;
+	private boolean disabled = true;
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public User getSelected() {
+		return selected;
+	}
+
+	public void setSelected(User selected) {
+		this.selected = selected;
+	}
 
 	public List<User> getUsers() {
 		return users;
@@ -52,7 +72,25 @@ public class UsersBean {
 		}
 		
 		return noAdminUsers;
-		
+	}
+	
+	public String baja() {
+		AdminService service;
+		try {
+			service = Services.getAdminService();
+			if(selected != null)
+				service.deepDeleteUser(selected.getId());
+			// Actualizamos el javabean de users inyectado en la tabla.
+			users = filtrarNoAdmin(service.findAllUsers());
+			return "exito";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+	    disabled = false;
 	}
 	
 

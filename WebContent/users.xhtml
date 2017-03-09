@@ -11,9 +11,11 @@
 
 	<ui:define name="cuerpo">
 		<center>
-			<h:form id="form-principal">
+			<h:form id="form-users">
 				<p:panel header="#{msgs.tituloOperacionUsuarios}">
-					<p:dataTable var="user" value="#{users.users}">
+					<p:dataTable id="table-users" var="user" value="#{users.users}" selectionMode="single" 
+						selection="#{users.selected}" rowKey="#{user.id}">
+						<p:ajax event="rowSelect" update="delete-button" listener="#{users.onRowSelect}" />
 						<p:column headerText="#{msgs.tituloOperacionLogin}" sortBy="#{user.login}">
 							<h:outputText value="#{user.login}" />
 						</p:column>
@@ -26,6 +28,10 @@
 						<p:column headerText="#{msgs.tituloColumnaEstado}" sortBy="#{user.status}">
 							<h:outputText value="#{user.status}" />
 						</p:column>
+						<f:facet name="footer">
+				            <p:commandButton id="delete-button" process="table-users" update="form-users" icon="ui-icon-closethick" 
+				            	value="#{msgs.borrarUsuario}" action="#{users.baja()}" disabled="#{users.disabled}" />
+				        </f:facet>
 					</p:dataTable>
 				</p:panel>
 			</h:form>
