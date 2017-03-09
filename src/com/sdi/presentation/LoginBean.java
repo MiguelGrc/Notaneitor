@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
@@ -46,6 +47,8 @@ public class LoginBean implements Serializable {
 			User u = service.findLoggableUser(login, password);
 			if(u != null){
 				//Filtrar si es admin o no. Admin->listarUsuarios / NoAdmin->listadoTareas
+				 FacesContext.getCurrentInstance().getExternalContext()
+					.getSessionMap().put("logedUser", u);
 				return "login";
 			}
 			else{
