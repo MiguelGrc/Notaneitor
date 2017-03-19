@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -15,7 +16,7 @@ import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
 
 @ManagedBean(name="users")
-@SessionScoped
+@RequestScoped
 public class UsersBean {
 	
 	private List<User> users;
@@ -44,6 +45,11 @@ public class UsersBean {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+	
+	public UsersBean(){
+		//Quizas es mejor otra opcion, como añadir siempre un listener a todas las peticiones y hacerlo session scoped otra vez.
+		//users = filtrarNoAdmin(aService.findAllUsers());
 	}
 	
 	@PostConstruct
