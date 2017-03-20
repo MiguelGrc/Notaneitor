@@ -13,34 +13,51 @@
 		<center>
 			<h:form id="form-users">
 				<p:panel header="#{msgs.tituloOperacionUsuarios}">
-					<p:dataTable id="table-users" var="user" value="#{users.users}" selectionMode="single" 
-						selection="#{users.selected}" rowKey="#{user.id}">
-						<p:ajax event="rowSelect" update="status-button delete-button" listener="#{users.onRowSelect}" />
-						<p:column headerText="#{msgs.tituloColumnaLogin}" sortBy="#{user.login}">
+					<p:dataTable id="table-users" var="user" value="#{users.users}"
+						selectionMode="single" selection="#{users.selected}"
+						rowKey="#{user.id}">
+						<p:ajax event="rowSelect" update="status-button delete-button"
+							listener="#{users.onRowSelect}" />
+						<p:column headerText="#{msgs.tituloColumnaLogin}"
+							sortBy="#{user.login}">
 							<h:outputText value="#{user.login}" />
 						</p:column>
-						<p:column headerText="#{msgs.tituloColumnaEmail}" sortBy="#{user.email}">
+						<p:column headerText="#{msgs.tituloColumnaEmail}"
+							sortBy="#{user.email}">
 							<h:outputText value="#{user.email}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaIsAdmin}">
 							<h:outputText value="#{user.isAdmin}" />
 						</p:column>
-						<p:column headerText="#{msgs.tituloColumnaEstado}" sortBy="#{user.status}">
+						<p:column headerText="#{msgs.tituloColumnaEstado}"
+							sortBy="#{user.status}">
 							<h:outputText value="#{user.status}" />
 						</p:column>
 						<f:facet name="footer">
-							<p:commandButton id="status-button" process="table-users" update="form-users" value="#{msgs.cambiarEstado}"
-				            	action="#{users.cambiarEstado()}" disabled="#{users.disabled}" icon="ui-icon-transfer-e-w" styleClass="ui-priority-primary" >
-				            	<p:confirm header="#{msgs.headerConfirmacion}" message="#{msgs.mensajeConfirmacion}" icon="ui-icon-alert" />
-			            	</p:commandButton>
-				            <p:commandButton id="delete-button" process="table-users" update="form-users" value="#{msgs.borrarUsuario}"
-				            	action="#{users.baja()}" disabled="#{users.disabled}" icon="ui-icon-closethick" styleClass="ui-priority-secondary" />
-				            	
-			            	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-       							<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-						    </p:confirmDialog>
-				        </f:facet>
+							<p:commandButton id="status-button" process="table-users"
+								update="form-users" value="#{msgs.cambiarEstado}"
+								action="#{users.cambiarEstado()}" disabled="#{users.disabled}"
+								icon="ui-icon-transfer-e-w" styleClass="ui-priority-primary">
+								<p:confirm header="#{msgs.headerConfirmacion}"
+									message="#{msgs.mensajeConfirmacion}" icon="ui-icon-alert" />
+							</p:commandButton>
+							<p:commandButton id="delete-button" process="table-users"
+								update="form-users" value="#{msgs.borrarUsuario}"
+								action="#{users.baja()}" disabled="#{users.disabled}"
+								icon="ui-icon-closethick" styleClass="ui-priority-secondary" />
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Yes" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="No" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+
+							<p:commandButton value="#{msgs.restaurarBD}"
+								actionListener="#{reiniciar.reiniciar}" update="form-users">
+							</p:commandButton>
+						</f:facet>
 					</p:dataTable>
 				</p:panel>
 			</h:form>
