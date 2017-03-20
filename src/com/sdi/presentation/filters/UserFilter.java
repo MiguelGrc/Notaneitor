@@ -1,4 +1,4 @@
-package com.sdi.presentation.filter;
+package com.sdi.presentation.filters;
 
 import java.io.IOException;
 
@@ -18,17 +18,17 @@ import javax.servlet.http.HttpSession;
 import com.sdi.dto.User;
 
 /**
- * Servlet Filter implementation class AdminFilter
+ * Servlet Filter implementation class UserFilter
  */
-@WebFilter(dispatcherTypes = { DispatcherType.REQUEST }, urlPatterns = { "/admin/*" }, initParams = { @WebInitParam(name = "LoginParam", value = "/login.xhtml") })
-public class AdminFilter implements Filter {
+@WebFilter(dispatcherTypes = { DispatcherType.REQUEST }, urlPatterns = { "/user/*" }, initParams = { @WebInitParam(name = "LoginParam", value = "/login.xhtml") })
+public class UserFilter implements Filter {
 
 	FilterConfig config = null;
 
 	/**
 	 * Default constructor.
 	 */
-	public AdminFilter() {
+	public UserFilter() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -54,7 +54,7 @@ public class AdminFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
 		User user = (User) session.getAttribute("logedUser");
-		if (user == null || !user.getIsAdmin()) {
+		if (user == null || user.getIsAdmin()) {
 			String loginForm = config.getInitParameter("LoginParam");
 			// Si no hay login, redirección al formulario de login
 			res.sendRedirect(req.getContextPath() + loginForm);
@@ -69,4 +69,5 @@ public class AdminFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		config = fConfig;
 	}
+
 }
