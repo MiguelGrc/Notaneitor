@@ -49,7 +49,10 @@ public class LoginBean implements Serializable {
 				//Filtrar si es admin o no. Admin->listarUsuarios / NoAdmin->listadoTareas
 				 FacesContext.getCurrentInstance().getExternalContext()
 					.getSessionMap().put("logedUser", u);
-				return "login";
+				 if(u.getIsAdmin())
+					 return "admin";
+				 else
+					 return "user";
 			}
 			else{
 				//Devolver a la misma página

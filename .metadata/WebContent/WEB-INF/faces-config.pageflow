@@ -2,12 +2,14 @@
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14246831526460" configfile="/Notaneitor/WebContent/WEB-INF/faces-config.xml">
   <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14882245528740" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14882245528741" path="*"/>
   <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14882245528742" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14882245528741" path="/error.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="122" y="562" id="pf14890492301030" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14890492301031 pf14890492301032 pf14890492301033" path="login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="338" y="562" id="pf14890492301034" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14890492301031" path="/login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="register.xhtml" x="338" y="946" id="pf14890492301035" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14890492301032" path="/register.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="users.xhtml" id="pf14890492301036" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14890492301033" path="/users.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="122" y="562" id="pf14890492301030" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14900376829751 pf14900376829752 pf14900379584518 pf14900379584519" path="login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="27" y="432" id="pf14900376829755" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14900376829751" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="register.xhtml" x="276" y="312" id="pf14900376829756" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf14900376829752" path="/register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="admin/users.xhtml" id="pf149003795845110" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14900379584518" path="/user/tareas.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="user/tareas.xhtml" id="pf149003795845111" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14900379584519" path="/admin/users.xhtml"/>
   <links id="pf14882245528741" target="pf14882245528742" source="pf14882245528740" outcome="error"/>
-  <links id="pf14890492301031" target="pf14890492301034" source="pf14890492301030" outcome="failure" fromaction="#{login.login}"/>
-  <links id="pf14890492301032" target="pf14890492301035" source="pf14890492301030" outcome="register"/>
-  <links id="pf14890492301033" target="pf14890492301036" source="pf14890492301030" outcome="login" fromaction="#{login.login}"/>
+  <links id="pf14900376829751" target="pf14900376829755" source="pf14890492301030" outcome="failure" fromaction="#{login.login}"/>
+  <links id="pf14900376829752" target="pf14900376829756" source="pf14890492301030" outcome="register"/>
+  <links id="pf14900379584518" target="pf149003795845110" source="pf14890492301030" outcome="user" fromaction="#{login.login}"/>
+  <links id="pf14900379584519" target="pf149003795845111" source="pf14890492301030" outcome="admin" fromaction="#{login.login}"/>
 </pageflow:Pageflow>
