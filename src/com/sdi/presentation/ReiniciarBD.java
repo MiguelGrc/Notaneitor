@@ -3,6 +3,10 @@ package com.sdi.presentation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
+
 import alb.util.date.DateUtil;
 
 import com.sdi.business.AdminService;
@@ -13,9 +17,11 @@ import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 import com.sdi.dto.User;
 
+@ManagedBean(name = "reiniciar")
+@ApplicationScoped
 public class ReiniciarBD {
 
-	public void reiniciar() {
+	public void reiniciar(ActionEvent e) {
 		AdminService aServ;
 		TaskService tServ;
 		UserService uServ;
@@ -32,7 +38,8 @@ public class ReiniciarBD {
 
 			List<User> usuariosActuales = aServ.findAllUsers();
 			for (User u : usuariosActuales) {
-				aServ.deepDeleteUser(u.getId());
+				if(!u.getIsAdmin())
+					aServ.deepDeleteUser(u.getId());
 			}
 
 			List<User> usuariosNuevos = new ArrayList<User>();
@@ -40,7 +47,7 @@ public class ReiniciarBD {
 				User usuario = new User();
 				uServ.registerUser(usuario.setEmail("user" + i + "@gmail.com")
 						.setId(new Long(i)).setLogin("user" + i)
-						.setPassword("user" + i));
+						.setPassword("usuario" + i));
 				usuariosNuevos.add(usuario);
 			}
 
@@ -108,8 +115,8 @@ public class ReiniciarBD {
 			// usuario3.setEmail("user3@gmail.com").setId(new Long(3))
 			// .setLogin("user3").setPassword("user3");
 
-		} catch (Exception e) {
-
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
