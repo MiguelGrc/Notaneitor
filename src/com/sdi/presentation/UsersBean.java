@@ -4,24 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.SelectEvent;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
+import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
 
 @ManagedBean(name="users")
-@RequestScoped
+@ViewScoped
 public class UsersBean {
 	
 	private List<User> users;
 	private User selected;
 	private boolean disabled = true;
+	
+	@ManagedProperty(value="#{reiniciar}")
+	private ReiniciarBD reiniciarBD;
+
+	public ReiniciarBD getReiniciarBD() {
+		return reiniciarBD;
+	}
+
+	public void setReiniciarBD(ReiniciarBD reiniciarBD) {
+		this.reiniciarBD = reiniciarBD;
+	}
 
 	public boolean isDisabled() {
 		return disabled;
@@ -83,7 +96,7 @@ public class UsersBean {
 		return noAdminUsers;
 	}
 	
-	public String baja() {
+	public void baja(ActionEvent e) {
 		AdminService service;
 		try {
 			service = Services.getAdminService();
@@ -92,14 +105,12 @@ public class UsersBean {
 				// Actualizamos el javabean de users inyectado en la tabla.
 				users = filtrarNoAdmin(service.findAllUsers());
 			}
-			return "exito";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
-	public String cambiarEstado() {
+	public void cambiarEstado(ActionEvent e) {
 		AdminService service;
 		try {
 			service = Services.getAdminService();
@@ -111,10 +122,18 @@ public class UsersBean {
 				// Actualizamos el javabean de users inyectado en la tabla.
 				users = filtrarNoAdmin(service.findAllUsers());
 			}
-			return "exito";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void reiniciarBDAction(ActionEvent e){
+		try {
+			reiniciarBD.reiniciar();
+			users = filtrarNoAdmin(Services.getAdminService().findAllUsers());
+		} catch (BusinessException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
 		}
 	}
 	

@@ -18,9 +18,9 @@
 						<p:inputText value="#{login.login}"
 							placeholder="#{msgs.username}" required="true"
 							requiredMessage="#{msgs.formLogin_username_requiredMessage}"
-							id="username">
+							id="login">
 						</p:inputText>
-						<p:message for="username" />
+						<p:message for="login" />
 			  
 				  #{msgs.password} 
 						<p:password value="#{login.password}"
@@ -32,9 +32,11 @@
 						<f:facet name="footer">
 							<p:commandButton value="#{msgs.botonLogin}"
 								styleClass="ui-priority-primary" action="#{login.login}"
-								update="Grid" process="@form">
+								update="Grid" process="@form" id="login-button">
 							</p:commandButton>
-							<p:commandButton action="register" value="#{msgs.botonRegister}" styleClass="ui-priority-secondary" immediate="true"></p:commandButton>
+							<p:commandButton action="register" value="#{msgs.botonRegister}" 
+							styleClass="ui-priority-secondary" immediate="true" id="register-button">
+							</p:commandButton>
 						</f:facet>	<!-- check required and immediate -->
 					</h:panelGrid>
 				</p:panel>
