@@ -48,6 +48,20 @@
 			<to-view-id>/register.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>register.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{register.register}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{login.login}</from-action>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/register.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>

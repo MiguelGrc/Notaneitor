@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ActionEvent;
 
 import alb.util.date.DateUtil;
 
@@ -22,7 +21,7 @@ import com.sdi.persistence.impl.UserDaoJdbcImpl;
 @ApplicationScoped
 public class ReiniciarBD {
 
-	public void reiniciar(ActionEvent e) {
+	public void reiniciar() {
 		AdminService aServ;
 		TaskService tServ;
 		UserService uServ;
