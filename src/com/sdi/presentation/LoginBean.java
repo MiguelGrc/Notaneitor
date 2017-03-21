@@ -68,6 +68,6 @@ public class LoginBean implements Serializable {
 	
 	public String logout(){
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("logedUser");
-		return "error";
+		return "/login.xhtml";
 	}
 }
