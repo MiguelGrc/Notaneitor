@@ -14,7 +14,7 @@ import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 import com.sdi.dto.User;
 
-@ManagedBean(name="tareas")
+@ManagedBean(name="tasks")
 @SessionScoped
 public class TasksBean {
 	
@@ -35,10 +35,25 @@ public class TasksBean {
 		this.tareas = tareas;
 	}
 	
+	
+	
+	public List<Category> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Category> categorias) {
+		this.categorias = categorias;
+	}
+
 	@PostConstruct
 	public void init(){
 		user = (User) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get(new String("logedUser"));
+		
+		//TODO: esto estaría bien?
+		listarInbox();
+		listarCategorias();
+		
 	}
 	
 	
