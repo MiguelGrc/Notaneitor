@@ -16,13 +16,22 @@ import com.sdi.dto.Category;
 
 @ManagedBean(name="menuTasks")
 @SessionScoped
-public class MenuTasks {
+public class MenuTasksBean {
 
-	private MenuModel menuButton = new DefaultMenuModel();
+	private MenuModel mb = new DefaultMenuModel();
+	
+	public MenuModel getMb() {
+		return mb;
+	}
+
+	public void setMb(MenuModel mb) {
+		this.mb = mb;
+	}
+
 	@ManagedProperty(value = "#{tasks}")
 	private TasksBean tasksInfo;
 	
-	public MenuTasks(){
+	public MenuTasksBean(){
 		ResourceBundle bundle = FacesContext.getCurrentInstance().getApplication().getResourceBundle(FacesContext.getCurrentInstance(), "msgs");
 		
 		String inbox = bundle.getString("inbox");
@@ -45,15 +54,15 @@ public class MenuTasks {
 		DefaultSubMenu categoriesMenu = new DefaultSubMenu(categories);
 		categoriesMenu.setId("categories_submenu");
 		
-		for(Category c: tasksInfo.getCategorias()){
+		for(Category c: tasksInfo.getCategories()){
 			DefaultMenuItem categItem = new DefaultMenuItem(c.getName());
 			categItem.setId("category_"+c.getId());
 			categItem.setCommand("#{tasks.listarCategoria(c)}");
 			categoriesMenu.addElement(categItem);
 		}
 		
-		this.menuButton.addElement(inboxItem);
-		this.menuButton.addElement(todayItem);
-		this.menuButton.addElement(categoriesMenu);
+		this.mb.addElement(inboxItem);
+		this.mb.addElement(todayItem);
+		this.mb.addElement(categoriesMenu);
 	}
 }

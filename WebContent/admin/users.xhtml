@@ -31,18 +31,19 @@
 							<h:outputText value="#{user.email}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaIsAdmin}">
-							<h:outputText value="#{user.isAdmin}" />
+							<h:outputText value="#{user.isAdmin ? msgs.si : msgs.no}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaEstado}"
 							sortBy="#{user.status}">
-							<h:outputText value="#{user.status}" />
+							<h:outputText value="#{user.status=='ENABLED' ? msgs.habilitado : msgs.deshabilitado}" />
 						</p:column>
 						<f:facet name="footer">
 							<p:commandButton id="status-button" process="table-users" update="form-users" value="#{msgs.cambiarEstado}"
 				            	actionListener="#{users.cambiarEstado}" disabled="#{users.disabled}" icon="ui-icon-transfer-e-w" styleClass="ui-priority-primary" />
 				            	
 				            <p:commandButton id="delete-button" process="table-users" update="form-users" value="#{msgs.borrarUsuario}"
-				            	actionListener="#{users.baja}" disabled="#{users.disabled}" icon="ui-icon-closethick" styleClass="ui-priority-secondary" >
+				            	actionListener="#{users.baja}" disabled="#{users.disabled}" icon="ui-icon-closethick" styleClass="ui-priority-secondary" 
+				            	style="background-color:#FF0000; border-color:#FF0000" >
 				            	<p:confirm header="#{msgs.headerConfirmacion}" message="#{msgs.mensajeConfirmacion}" icon="ui-icon-alert" />
 				            </p:commandButton>
 				            	

@@ -18,31 +18,54 @@ import com.sdi.dto.User;
 @SessionScoped
 public class TasksBean {
 	
-	private List<Task> tareas;
+	private List<Task> tasks;
 	
 	//TODO: mirar si es mejor crear otra clase?
-	private List<Category> categorias;
-	
+	private List<Category> categories;
 	private boolean showFinished;
-	
 	private User user;
+	private Task selected;
 	
-	public List<Task> getTareas() {
-		return tareas;
+	public boolean isShowFinished() {
+		return showFinished;
 	}
 
-	public void setTareas(List<Task> tareas) {
-		this.tareas = tareas;
-	}
-	
-	
-	
-	public List<Category> getCategorias() {
-		return categorias;
+	public void setShowFinished(boolean showFinished) {
+		this.showFinished = showFinished;
 	}
 
-	public void setCategorias(List<Category> categorias) {
-		this.categorias = categorias;
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Task getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Task selected) {
+		this.selected = selected;
+	}
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+	
+	
+	
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	@PostConstruct
@@ -65,10 +88,10 @@ public class TasksBean {
 		try{
 			tService = Services.getTaskService();
 			
-			tareas = tService.findFinishedInboxTasksByUserId(user.getId());
+			tasks = tService.findFinishedInboxTasksByUserId(user.getId());
 			
 			if(showFinished){
-				tareas.addAll(tService.findFinishedInboxTasksByUserId(user.getId()));
+				tasks.addAll(tService.findFinishedInboxTasksByUserId(user.getId()));
 			}
 			
 			return "listadoTareas";
@@ -86,7 +109,7 @@ public class TasksBean {
 		try{
 			tService = Services .getTaskService();
 			
-			tareas = tService.findTodayTasksByUserId(user.getId());
+			tasks = tService.findTodayTasksByUserId(user.getId());
 			
 			return "listadoTareas";
 		}
@@ -102,7 +125,7 @@ public class TasksBean {
 		try{
 			tService = Services .getTaskService();
 			
-			tareas = tService.findWeekTasksByUserId(user.getId());
+			tasks = tService.findWeekTasksByUserId(user.getId());
 			
 			return "listadoTareas";
 		}
@@ -118,7 +141,7 @@ public class TasksBean {
 			tService = Services .getTaskService();
 			
 			//Quizas mejor por solo ID
-			tareas = tService.findTasksByCategoryId(categoria.getId());
+			tasks = tService.findTasksByCategoryId(categoria.getId());
 			
 			return "listadoTareas";
 		}
@@ -133,7 +156,7 @@ public class TasksBean {
 		try{
 			tService=Services.getTaskService();
 			
-			categorias=tService.findCategoriesByUserId(user.getId());
+			categories=tService.findCategoriesByUserId(user.getId());
 			
 			return "listadoTareas";
 			

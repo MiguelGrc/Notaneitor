@@ -3,7 +3,7 @@
   <display-name>Notaneitor</display-name>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>bootstrap</param-value>
+    <param-value>omega</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>login.xhtml</welcome-file>

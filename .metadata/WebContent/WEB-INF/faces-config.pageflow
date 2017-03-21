@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14246831526460" configfile="/Notaneitor/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14882245528740" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14882245528741" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14882245528742" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14882245528741" path="/error.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="122" y="562" id="pf14890492301030" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14890492301031 pf14890492301032 pf14890492301033" path="login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="338" y="562" id="pf14890492301034" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14890492301031" path="/login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="register.xhtml" x="338" y="946" id="pf14890492301035" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14890492301032" path="/register.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="users.xhtml" id="pf14890492301036" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14890492301033" path="/users.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14882245528740" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14882245528741" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14882245528742" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf14882245528741" path="/error.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="338" y="1714" id="pf14890492301034" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf14901179140606 pf14901179140607 pf14901179140608 pf14901179140609" inlinks="pf14901179140608 pf149011791406010" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="users.xhtml" x="122" y="1330" id="pf14890492301036" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/users.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="admin/users.xhtml" id="pf149011791406011" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14901179140606" path="/admin/users.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="user/tasks.xhtml" id="pf149011791406012" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14901179140607" path="/user/tasks.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="register.xhtml" id="pf149011791406013" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf149011791406010" inlinks="pf14901179140609" path="/register.xhtml"/>
   <links id="pf14882245528741" target="pf14882245528742" source="pf14882245528740" outcome="error"/>
-  <links id="pf14890492301031" target="pf14890492301034" source="pf14890492301030" outcome="failure" fromaction="#{login.login}"/>
-  <links id="pf14890492301032" target="pf14890492301035" source="pf14890492301030" outcome="register"/>
-  <links id="pf14890492301033" target="pf14890492301036" source="pf14890492301030" outcome="login" fromaction="#{login.login}"/>
+  <links id="pf14901179140606" target="pf149011791406011" source="pf14890492301034" outcome="admin" fromaction="#{login.login}"/>
+  <links id="pf14901179140607" target="pf149011791406012" source="pf14890492301034" outcome="user" fromaction="#{login.login}"/>
+  <links id="pf14901179140608" target="pf14890492301034" source="pf14890492301034" outcome="failure" fromaction="#{login.login}"/>
+  <links id="pf14901179140609" target="pf149011791406013" source="pf14890492301034" outcome="register"/>
+  <links id="pf149011791406010" target="pf14890492301034" source="pf149011791406013" outcome="success" fromaction="#{register.register}"/>
 </pageflow:Pageflow>
