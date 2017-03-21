@@ -3,7 +3,7 @@ package com.sdi.presentation;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import com.sdi.business.Services;
@@ -12,7 +12,7 @@ import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.User;
 
 @ManagedBean(name = "login")
-@SessionScoped
+@RequestScoped
 public class LoginBean implements Serializable {
 	private static final long serialVersionUID = -3194940809153687908L;
 	
@@ -64,5 +64,10 @@ public class LoginBean implements Serializable {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+	
+	public String logout(){
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("logedUser");
+		return "error";
 	}
 }
