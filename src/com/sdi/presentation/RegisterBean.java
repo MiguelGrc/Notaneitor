@@ -61,7 +61,7 @@ public class RegisterBean implements Serializable {
 			return "success";
 		} catch(BusinessException e){
 			e.printStackTrace();
-			return "failure";
+			return "error";					//TODO check
 		}		
 	}
 	

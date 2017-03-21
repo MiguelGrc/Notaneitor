@@ -18,7 +18,7 @@
 						<p:inputText value="#{register.login}"
 							placeholder="#{msgs.username}" required="true"
 							requiredMessage="#{msgs.form_username_requiredMessage}"
-							validatorMessage="#{msgs.form_username_validatorMessage}"
+							validator="usernameValidator"
 							id="login">
 						</p:inputText>
 						<p:message for="login" />
