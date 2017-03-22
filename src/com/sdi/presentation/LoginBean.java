@@ -2,6 +2,7 @@ package com.sdi.presentation;
 
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -55,7 +56,7 @@ public class LoginBean implements Serializable {
 					 return "user";
 			}
 			else{
-				//Devolver a la misma página
+				new FacesMessage("Los datos que se han introducido son incorrectos o el usuario está deshabilitado.");
 				return "failure";
 			}
 			

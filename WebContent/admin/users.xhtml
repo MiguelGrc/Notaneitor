@@ -10,7 +10,7 @@
   	</ui:define> -->
 
 	<ui:define name="extender-menu">
-    	<p:menuitem value="#{msgs.restaurarBD}" actionListener="#{users.reiniciarBDAction}" update="form-users" />
+    	<p:menuitem id="item-restoreDB" value="#{msgs.restaurarBD}" actionListener="#{users.reiniciarBDAction}" update="form-users" />
     </ui:define>
 
 	<ui:define name="cuerpo">
@@ -48,8 +48,8 @@
 				            </p:commandButton>
 				            	
 			            	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-       							<p:commandButton value="#{msgs.si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						        <p:commandButton value="#{msgs.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+       							<p:commandButton id="delete-yes" value="#{msgs.si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						        <p:commandButton id="delete-no" value="#{msgs.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						    </p:confirmDialog>
 				        </f:facet>
 					</p:dataTable>
