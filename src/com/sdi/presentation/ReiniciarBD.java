@@ -1,6 +1,7 @@
 package com.sdi.presentation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
@@ -78,15 +79,16 @@ public class ReiniciarBD {
 					}
 				}
 			}
-
+			
+			List<Task> nuevasTareas = new ArrayList<Task>();
 			j = 1;
 			for (User u : usuariosNuevos) {
-				if (!u.getIsAdmin()) {
-					Task tarea = new Task();
+				if (!u.getIsAdmin()) {				
 					List<Category> categoriasUsuario = tServ
 							.findCategoriesByUserId(u.getId());
 					for (int i = 1; i <= 10; i++) {
-						tServ.createTask(tarea
+						Task tarea = new Task();
+						nuevasTareas.add(tarea
 								.setPlanned(
 										DateUtil.addDays(DateUtil.today(), 6))
 								.setId(new Long(j)).setTitle("Tarea" + j)
@@ -94,12 +96,14 @@ public class ReiniciarBD {
 						j++;
 					}
 					for (int i = 1; i <= 10; i++) {
-						tServ.createTask(tarea.setPlanned(DateUtil.today())
+						Task tarea = new Task();
+						nuevasTareas.add(tarea.setPlanned(DateUtil.today())
 								.setId(new Long(j)).setTitle("Tarea" + j)
 								.setUserId(u.getId()));
 						j++;
 					}
 					for (int i = 1; i <= 10; i++) {
+						Task tarea = new Task();
 						Category categ = null;
 						if (i <= 3) {
 							categ = categoriasUsuario.get(0);
@@ -114,16 +118,24 @@ public class ReiniciarBD {
 
 						}
 
-						tServ.createTask(tarea
-								.setPlanned(
-										DateUtil.addDays(DateUtil.today(), -j))
+						nuevasTareas.add(tarea
+								.setPlanned(DateUtil.addDays(DateUtil.today(), -j))
 								.setId(new Long(j)).setTitle("Tarea" + j)
 								.setUserId(u.getId())
 								.setCategoryId(categ.getId()));
 						j++;
 					}
+				
 				}
 			}
+			
+
+			//Las mezclamos para poder ordenadarlas luego:
+			Collections.shuffle(nuevasTareas);
+			
+			//Las introducimos mezcladas
+			for(Task t: nuevasTareas)
+				tServ.createTask(t);
 
 			// User usuario2 = new User();
 			// usuario2.setEmail("user2@gmail.com").setId(new Long(2))
