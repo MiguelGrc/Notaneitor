@@ -1,5 +1,6 @@
 package com.sdi.presentation;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +26,16 @@ public class TasksBean {
 	private boolean showFinished;
 	private User user;
 	private Task selected;
+	private String actual;
 	
+	public String getActual() {
+		return actual;
+	}
+
+	public void setActual(String actual) {
+		this.actual = actual;
+	}
+
 	public boolean isShowFinished() {
 		return showFinished;
 	}
@@ -58,8 +68,6 @@ public class TasksBean {
 		this.tasks = tasks;
 	}
 	
-	
-	
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -67,7 +75,8 @@ public class TasksBean {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-
+	
+	
 	@PostConstruct
 	public void init(){
 		user = (User) FacesContext.getCurrentInstance()
@@ -79,12 +88,10 @@ public class TasksBean {
 		
 	}
 	
-	
-	
-	
 
 	public String listarInbox(){
 		TaskService tService;
+		actual = "inbox";
 		try{
 			tService = Services.getTaskService();
 			
@@ -106,6 +113,7 @@ public class TasksBean {
 	
 	public String listarHoy(){
 		TaskService tService;
+		actual = "hoy";
 		try{
 			tService = Services .getTaskService();
 			
@@ -120,7 +128,8 @@ public class TasksBean {
 		
 	}
 	
-	public String listarSemanal(){
+	public String listarSemana(){
+		actual = "semana";
 		TaskService tService;
 		try{
 			tService = Services .getTaskService();
@@ -165,6 +174,10 @@ public class TasksBean {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+	
+	public boolean delayed(Task t){
+		return t.getPlanned().after(new Date());
 	}
 	
 //	public String editTask(Task tarea){

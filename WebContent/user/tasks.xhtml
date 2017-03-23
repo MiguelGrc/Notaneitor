@@ -9,20 +9,27 @@
     	#{msgs.tituloOperacionUsuarios}
   	</ui:define> -->
 
+	<style type="text/css">
+		.old {
+			background-color: red !important;
+		}
+	</style>
+
 	<ui:define name="extender-menu">
-   		<p:menuitem value="Escoger Tareas" model="#{menuTasks.mb}" />
+   		<p:menuitem id="item-tareas-inbox" value="#{msgs.inbox}" action="#{tasks.listarInbox}" update="form-tasks" />
+   		<p:menuitem id="item-tareas-hoy" value="#{msgs.hoy}" action="#{tasks.listarHoy}" update="form-tasks" />
+   		<p:menuitem id="item-tareas-semana" value="#{msgs.semana}" action="#{tasks.listarSemana}" update="form-tasks" />
     </ui:define>
 
 	<ui:define name="cuerpo">
 		<center>
 			<h:form id="form-tasks">
-				<p:panel header="#{msgs.tituloOperacionTareas}">
-					<p:dataTable id="table-tasks" var="task" value="#{tasks.tasks}"
-						selectionMode="single" selection="#{tasks.selected}"
-						rowKey="#{task.id}" sortBy="#{task.planned}"
-						paginator="true" paginatorPosition="bottom"
+				<p:panel header="#{msgs.tituloOperacionTareas} - #{msgs[tasks.actual]}">
+					<p:dataTable id="table-tasks" var="task" value="#{tasks.tasks}" selectionMode="single" 
+						selection="#{tasks.selected}" rowKey="#{task.id}" sortBy="#{task.planned}"
+						emptyMessage="#{msgs.listaVacia}" paginator="true" paginatorPosition="bottom"
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                        rows="8" emptyMessage="#{msgs.listaVacia}">
+                        rows="8" rowStyleClass="#{task.id mod 2 == 0 ? null : 'old'}" >
 						<!-- <p:ajax event="rowSelect" update="status-button delete-button"
 							listener="#{users.onRowSelect}" /> -->
 						<p:column headerText="#{msgs.tituloColumnaTareaTitulo}"
@@ -42,11 +49,11 @@
 						</p:column>
 						
 					</p:dataTable>
-					<f:facet name="footer">
-							<p:selectBooleanCheckbox value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
-								<p:ajax update="table-tasks" listener="#{tasks.listarInbox}" />
-							</p:selectBooleanCheckbox>
-						</f:facet>	<!-- mirar colocacion checkbox -->
+					<f:facet name="#{tasks.actual eq 'inbox' ? 'footer' : ''}">
+						<p:selectBooleanCheckbox value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
+							<p:ajax update="table-tasks" listener="#{tasks.listarInbox}" />
+						</p:selectBooleanCheckbox>
+					</f:facet>	<!-- mirar colocacion checkbox -->
 				</p:panel>
 			</h:form>
 		</center>

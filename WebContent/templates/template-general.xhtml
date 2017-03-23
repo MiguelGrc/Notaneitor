@@ -28,11 +28,12 @@
 					</p:menuitem>
 				</p:submenu>
 				<p:menuitem id="item-cerrarSesion" value="#{msgs.cerrarSesion}" action="#{login.logout}" 
-					rendered="#{sessionScope.logedUser != null}" style="position:absolute; right:110px;" ></p:menuitem>
+					rendered="#{sessionScope.logedUser != null}" style="position:absolute; right:145px;" ></p:menuitem>
 				<ui:insert name="extender-menu"></ui:insert>
 			</p:menubar>
 
 		</h:form>
+		<br/>
 
 		<ui:insert name="cuerpo">#{msgs.tituloDefectoCuerpo}</ui:insert>
 
