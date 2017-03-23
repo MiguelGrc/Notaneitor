@@ -88,7 +88,7 @@ public class TasksBean {
 		try{
 			tService = Services.getTaskService();
 			
-			tasks = tService.findFinishedInboxTasksByUserId(user.getId());
+			tasks = tService.findInboxTasksByUserId(user.getId());
 			
 			if(showFinished){
 				tasks.addAll(tService.findFinishedInboxTasksByUserId(user.getId()));

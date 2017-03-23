@@ -27,7 +27,8 @@
 						actionListener="#{settings.setEnglish}" update="@all" immediate="true">
 					</p:menuitem>
 				</p:submenu>
-				<p:menuitem id="item-cerrarSesion" value="#{msgs.cerrarSesion}" action="#{login.logout}" rendered="#{sessionScope.logedUser != null}"></p:menuitem>
+				<p:menuitem id="item-cerrarSesion" value="#{msgs.cerrarSesion}" action="#{login.logout}" 
+					rendered="#{sessionScope.logedUser != null}" style="position:absolute; right:110px;" ></p:menuitem>
 				<ui:insert name="extender-menu"></ui:insert>
 			</p:menubar>
 

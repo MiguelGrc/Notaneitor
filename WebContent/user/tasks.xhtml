@@ -19,7 +19,10 @@
 				<p:panel header="#{msgs.tituloOperacionTareas}">
 					<p:dataTable id="table-tasks" var="task" value="#{tasks.tasks}"
 						selectionMode="single" selection="#{tasks.selected}"
-						rowKey="#{task.id}" sortBy="#{task.planned}">
+						rowKey="#{task.id}" sortBy="#{task.planned}"
+						paginator="true" paginatorPosition="bottom"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                        rows="8" emptyMessage="#{msgs.listaVacia}">
 						<!-- <p:ajax event="rowSelect" update="status-button delete-button"
 							listener="#{users.onRowSelect}" /> -->
 						<p:column headerText="#{msgs.tituloColumnaTareaTitulo}"
@@ -39,6 +42,11 @@
 						</p:column>
 						
 					</p:dataTable>
+					<f:facet name="footer">
+							<p:selectBooleanCheckbox value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
+								<p:ajax update="table-tasks" listener="#{tasks.listarInbox}" />
+							</p:selectBooleanCheckbox>
+						</f:facet>	<!-- mirar colocacion checkbox -->
 				</p:panel>
 			</h:form>
 		</center>
