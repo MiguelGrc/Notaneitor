@@ -6,11 +6,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.component.datatable.DataTable;
+
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
+import com.sdi.business.UserService;
 import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 import com.sdi.dto.User;
@@ -177,7 +181,27 @@ public class TasksBean {
 	}
 	
 	public boolean delayed(Task t){
-		return t.getPlanned().after(new Date());
+		return t.getPlanned().before(new Date());
+	}
+	
+	public boolean finished(Task t){
+		return t.getFinished() != null;
+	}
+	
+	public String userCat(Task t){	//TODO change
+		Long id = t.getCategoryId();
+		TaskService tService;
+		if(t.getCategoryId() != null){
+			try{
+				tService = Services.getTaskService();
+				Category cat = tService.findCategoryById(id);
+				return cat.getName();
+			} catch(Exception e){
+				e.printStackTrace();
+				return " ";
+			}
+		}
+		return " ";
 	}
 	
 //	public String editTask(Task tarea){
@@ -192,6 +216,9 @@ public class TasksBean {
 	
 	public void changeFilter(ActionEvent e){
 		showFinished=!showFinished;
+//		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+//		DataTable table = (DataTable) viewRoot.findComponent("form-tasks:table-tasks");
+//		table.resetValue();
 	}
 	
 	

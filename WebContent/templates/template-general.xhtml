@@ -9,6 +9,24 @@
 <f:view locale="#{settings.locale}">
 	<h:head>
 		<title>#{msgs.tituloHead}</title>
+		<style type="text/css">	<!-- style for task list tables -->
+			.delay {
+				animation-name: blink-delay;
+				animation-duration: 1s;
+				animation-fill-mode: forwards;
+			}
+			@keyframes blink-delay {
+				to {background-color: rgba(255,0,0,0.45);}
+			}
+			.finish {
+				animation-name: blink-finish;
+				animation-duration: 1s;
+				animation-fill-mode: forwards;
+			}
+			@keyframes blink-finish {
+				to {background-color: rgba(0,255,0,0.45);}
+			}
+		</style>
 	</h:head>
 	<h:body>
 		<h:form id="form-cabecera">

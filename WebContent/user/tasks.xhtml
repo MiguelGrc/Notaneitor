@@ -9,12 +9,6 @@
     	#{msgs.tituloOperacionUsuarios}
   	</ui:define> -->
 
-	<style type="text/css">
-		.old {
-			background-color: red !important;
-		}
-	</style>
-
 	<ui:define name="extender-menu">
    		<p:menuitem id="item-tareas-inbox" value="#{msgs.inbox}" action="#{tasks.listarInbox}" update="form-tasks" />
    		<p:menuitem id="item-tareas-hoy" value="#{msgs.hoy}" action="#{tasks.listarHoy}" update="form-tasks" />
@@ -25,33 +19,41 @@
 		<center>
 			<h:form id="form-tasks">
 				<p:panel header="#{msgs.tituloOperacionTareas} - #{msgs[tasks.actual]}">
-					<p:dataTable id="table-tasks" var="task" value="#{tasks.tasks}" selectionMode="single" 
-						selection="#{tasks.selected}" rowKey="#{task.id}" sortBy="#{task.planned}"
+					<p:dataTable id="table-tasks" var="task" value="#{tasks.tasks}" selectionMode="single" widgetVar="tbWidget"
+						selection="#{tasks.selected}" rowKey="#{task.id}"
 						emptyMessage="#{msgs.listaVacia}" paginator="true" paginatorPosition="bottom"
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                        rows="8" rowStyleClass="#{task.id mod 2 == 0 ? null : 'old'}" >
+                        rows="8" rowStyleClass="#{tasks.delayed(task) ? (tasks.finished(task) ? 'finish' : 'delay') : (tasks.finished(task) ? 'finish' : null)}" 
+                        sortBy="#{tasks.actual eq 'inbox' ? task.planned : ''}">
 						<!-- <p:ajax event="rowSelect" update="status-button delete-button"
 							listener="#{users.onRowSelect}" /> -->
 						<p:column headerText="#{msgs.tituloColumnaTareaTitulo}"
-							sortBy="#{task.title}">
+							sortBy="#{task.title}" sortable="#{tasks.actual eq 'semana'}"
+							filterBy="#{tasks.actual eq 'inbox' ? task.title : task.comments}" filterMatchMode="contains">
 							<h:outputText value="#{task.title}" />
 						</p:column>
-						<p:column headerText="#{msgs.tituloColumnaTareaCreada}"
-							sortBy="#{task.created}">
+						<p:column headerText="#{msgs.tituloColumnaTareaCreada}">
 							<h:outputText value="#{task.created}" />
 						</p:column>
-						<p:column headerText="#{msgs.tituloColumnaTareaPlaneada}">
+						<p:column headerText="#{msgs.tituloColumnaTareaPlaneada}"
+							sortBy="#{task.planned}" sortable="#{tasks.actual eq 'semana' or tasks.actual eq 'hoy'}">
 							<h:outputText value="#{task.planned}" />
 						</p:column>
-						<p:column headerText="#{msgs.tituloColumnaTareaComentarios}"
-							sortBy="#{task.comments}">
+						<p:column headerText="#{msgs.tituloColumnaTareaFinalizada}" rendered="#{tasks.showFinished}">
+							<h:outputText value="#{task.finished}" />
+						</p:column>
+						<p:column headerText="#{msgs.tituloColumnaTareaCategoria}"
+							sortBy="#{tasks.userCat(task)}" sortable="#{tasks.actual eq 'hoy'}">
+							<h:outputText value="#{tasks.userCat(task)}" />
+						</p:column>
+						<p:column headerText="#{msgs.tituloColumnaTareaComentarios}">
 							<h:outputText value="#{task.comments}" />
 						</p:column>
 						
 					</p:dataTable>
 					<f:facet name="#{tasks.actual eq 'inbox' ? 'footer' : ''}">
 						<p:selectBooleanCheckbox value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
-							<p:ajax update="table-tasks" listener="#{tasks.listarInbox}" />
+							<p:ajax update="table-tasks" listener="#{tasks.listarInbox}"/>
 						</p:selectBooleanCheckbox>
 					</f:facet>	<!-- mirar colocacion checkbox -->
 				</p:panel>
