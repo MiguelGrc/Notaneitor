@@ -12,7 +12,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 
 import alb.util.date.DateUtil;
@@ -39,6 +38,17 @@ public class TasksBean {
 	
 	@ManagedProperty(value = "#{createTask}")
 	private CreateTaskBean createTaskBean;
+	
+	@ManagedProperty(value = "#{editTask}")
+	private EditTaskBean editTaskBean;
+
+	public EditTaskBean getEditTaskBean() {
+		return editTaskBean;
+	}
+
+	public void setEditTaskBean(EditTaskBean editTaskBean) {
+		this.editTaskBean = editTaskBean;
+	}
 
 	public CreateTaskBean getCreateTaskBean() {
 		return createTaskBean;
@@ -123,10 +133,6 @@ public class TasksBean {
 				tasks.addAll(tService.findFinishedInboxTasksByUserId(user.getId()));
 			}
 			
-			DataTable dt = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
-					.findComponent("form-tasks:table-tasks");
-			dt.setFirst(0);
-			
 			return "listadoTareas";
 		}
 		catch(Exception e){
@@ -145,10 +151,6 @@ public class TasksBean {
 			
 			tasks = tService.findTodayTasksByUserId(user.getId());
 			
-			DataTable dt = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
-					.findComponent("form-tasks:table-tasks");
-			dt.setFirst(0);
-			
 			return "listadoTareas";
 		}
 		catch(Exception e){
@@ -166,10 +168,6 @@ public class TasksBean {
 			
 			tasks = tService.findWeekTasksByUserId(user.getId());
 			
-			DataTable dt = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
-					.findComponent("form-tasks:table-tasks");
-			dt.setFirst(0);
-			
 			return "listadoTareas";
 		}
 		catch(Exception e){
@@ -181,7 +179,7 @@ public class TasksBean {
 	public String listarCategoria(Category categoria){
 		TaskService tService;
 		try{
-			tService = Services .getTaskService();
+			tService = Services.getTaskService();
 			
 			//Quizas mejor por solo ID
 			tasks = tService.findTasksByCategoryId(categoria.getId());
@@ -209,7 +207,7 @@ public class TasksBean {
 	}
 	
 	public boolean delayed(Task t){
-		return t.getPlanned().before(new Date());
+		return t.getPlanned().before(DateUtil.today());
 	}
 	
 	public boolean finished(Task t){
@@ -266,7 +264,26 @@ public class TasksBean {
 		reloadList(redirect);
 		createTaskBean.init();
 		RequestContext.getCurrentInstance().execute("PF('create-task-dialog').hide();");
+	}
+	
+	public void editTask(){
+		Task t = new Task();
 		
+		t.setTitle(editTaskBean.getTitle());
+		t.setPlanned(editTaskBean.getPlanned());
+		t.setComments(editTaskBean.getComments());
+		t.setCategoryId(editTaskBean.getCategoryId());
+		
+		TaskService tService = Services.getTaskService();
+		try {
+			tService.updateTask(t);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		reloadList(actual);
+		RequestContext.getCurrentInstance().execute("PF('edit-task-dialog').hide();");
 	}
 	
 	private void reloadList(String list){

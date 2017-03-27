@@ -58,6 +58,7 @@
 					</f:facet>	<!-- mirar colocacion checkbox -->
 				</p:panel>
 				<p:commandButton value="#{msgs.crearTarea}" onclick="PF('create-task-dialog').show();" />
+				<p:commandButton value="#{msgs.editarTarea}" actionListener="#{editTask.load(tasks.selected.id)}" update="form-edit-task" />
 			</h:form>
 			
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
@@ -66,20 +67,45 @@
 				<h:form id="form-create-task">
 					<div class="ui-fluid">
 						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputLabel for="task-title" value="#{msgs.tituloColumnaTareaTitulo}:" />
-							<p:inputText id="task-title" value="#{createTask.title}" required="true" label="task-title" 
+							<h:outputLabel for="create-task-title" value="#{msgs.tituloColumnaTareaTitulo}:" />
+							<p:inputText id="create-task-title" value="#{createTask.title}" required="true" label="create-task-title" 
 								requiredMessage="#{msgs.form_create_createTask_requiredMessage}"/>
-							<h:outputLabel for="task-comments" value="#{msgs.comentarios}:" />
-							<p:inputTextarea id="task-comments" rows="4" cols="35" value="#{createTask.comments}" label="task-comments" />
-							<h:outputLabel for="task-category-selector" value="#{msgs.tituloColumnaTareaCategoria}:" />
-							<p:selectOneMenu id="task-category-selector" value="#{createTask.categoryId}">
+							<h:outputLabel for="create-task-comments" value="#{msgs.tituloColumnaTareaComentarios}:" />
+							<p:inputTextarea id="create-task-comments" rows="4" cols="35" value="#{createTask.comments}" label="create-task-comments" />
+							<h:outputLabel for="create-task-category-selector" value="#{msgs.tituloColumnaTareaCategoria}:" />
+							<p:selectOneMenu id="create-task-category-selector" value="#{createTask.categoryId}">
 								<f:selectItem itemValue="0" itemLabel="- #{msgs.ninguna} -" />
 								<f:selectItems value="#{tasks.categories}" />
 							</p:selectOneMenu>
-							<h:outputLabel for="task-planned" value="#{msgs.tituloColumnaTareaPlaneada}:" />
-							<p:calendar id="task-planned" value="#{createTask.planned}" mindate="#{createTask.planned}" />
+							<h:outputLabel for="create-task-planned" value="#{msgs.tituloColumnaTareaPlaneada}:" />
+							<p:calendar id="create-task-planned" value="#{createTask.planned}" mindate="#{createTask.planned}" />
 							<f:facet name="footer">
-								<p:commandButton id="task-create-button" value="#{msgs.crearTarea}" actionListener="#{tasks.createTask}" 
+								<p:commandButton id="create-task-create-button" value="#{msgs.crearTarea}" actionListener="#{tasks.createTask}" 
+									update="growl @form form-tasks"/>
+							</f:facet>
+						</h:panelGrid>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog header="#{msgs.editarTarea}" modal="true" widgetVar="edit-task-dialog" resizable="false">
+				<h:form id="form-edit-task">
+					<div class="ui-fluid">
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="edit-task-title" value="#{msgs.tituloColumnaTareaTitulo}:" />
+							<p:inputText id="edit-task-title" value="#{editTask.title}" required="true" label="edit-task-title" 
+								requiredMessage="#{msgs.form_create_createTask_requiredMessage}"/>
+							<h:outputLabel for="edit-task-comments" value="#{msgs.tituloColumnaTareaComentarios}:" />
+							<p:inputTextarea id="edit-task-comments" rows="4" cols="35" value="#{editTask.comments}" label="edit-task-comments" />
+							<h:outputLabel for="edit-task-category-selector" value="#{msgs.tituloColumnaTareaCategoria}:" />
+							<p:selectOneMenu id="edit-task-category-selector" value="#{editTask.categoryId}">
+								<f:selectItem itemValue="0" itemLabel="- #{msgs.ninguna} -" />
+								<f:selectItems value="#{tasks.categories}" />
+							</p:selectOneMenu>
+							<h:outputLabel for="edit-task-planned" value="#{msgs.tituloColumnaTareaPlaneada}:" />
+							<p:calendar id="edit-task-planned" value="#{editTask.planned}" mindate="#{editTask.planned}" />
+							<f:facet name="footer">
+								<p:commandButton id="edit-task-edit-button" value="#{msgs.editarTarea}" actionListener="#{tasks.editTask}" 
 									update="growl @form form-tasks"/>
 							</f:facet>
 						</h:panelGrid>
