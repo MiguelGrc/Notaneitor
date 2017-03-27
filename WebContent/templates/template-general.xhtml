@@ -37,11 +37,11 @@
 			</center>
 			<br />
 			<p:menubar>
-				<p:submenu label="#{msgs.textoIdioma}" icon="ui-icon-document" style="float:right">
-					<p:menuitem value="#{msgs.enlaceIdiomaES}"
+				<p:submenu id="idioma" label="#{msgs.textoIdioma}" icon="ui-icon-document" style="float:right">
+					<p:menuitem id="es" value="#{msgs.enlaceIdiomaES}"
 						actionListener="#{settings.setSpanish}" update="@all" immediate="true">
 					</p:menuitem>
-					<p:menuitem value="#{msgs.enlaceIdiomaEN}"
+					<p:menuitem id="en" value="#{msgs.enlaceIdiomaEN}"
 						actionListener="#{settings.setEnglish}" update="@all" immediate="true">
 					</p:menuitem>
 				</p:submenu>
