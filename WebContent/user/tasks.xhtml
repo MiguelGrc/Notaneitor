@@ -25,8 +25,8 @@
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                         rows="8" rowStyleClass="#{tasks.delayed(task) ? (tasks.finished(task) ? 'finish' : 'delay') : (tasks.finished(task) ? 'finish' : null)}" 
                         sortBy="#{tasks.actual eq 'inbox' ? task.planned : ''}">
-						<!-- <p:ajax event="rowSelect" update="status-button delete-button"
-							listener="#{users.onRowSelect}" /> -->
+						<p:ajax event="rowSelect" update=":form-tasks:edit-task-button :form-tasks:finish-task-button" 
+							listener="#{tasks.onRowSelect}"/>
 						<p:column headerText="#{msgs.tituloColumnaTareaTitulo}"
 							sortBy="#{task.title}" sortable="#{tasks.actual eq 'semana'}"
 							filterBy="#{tasks.actual eq 'inbox' ? task.title : task.comments}" filterMatchMode="contains">
@@ -43,22 +43,28 @@
 							<h:outputText value="#{task.finished}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaTareaCategoria}"
-							sortBy="#{tasks.userCat(task)}" sortable="#{tasks.actual eq 'hoy'}">
+							sortBy="#{tasks.userCat(task)}" sortable="#{tasks.actual eq 'hoy'}" rendered="#{tasks.actual ne 'inbox'}">
 							<h:outputText value="#{tasks.userCat(task)}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaTareaComentarios}">
 							<h:outputText value="#{task.comments}" />
 						</p:column>
-						
+						<f:facet name="#{tasks.actual eq 'inbox' ? 'footer' : ''}">
+							<p:selectBooleanCheckbox  value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
+								<p:ajax update="table-tasks" listener="#{tasks.listarInbox}"/>
+							</p:selectBooleanCheckbox>
+						</f:facet>
 					</p:dataTable>
-					<f:facet name="#{tasks.actual eq 'inbox' ? 'footer' : ''}">
-						<p:selectBooleanCheckbox value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
-							<p:ajax update="table-tasks" listener="#{tasks.listarInbox}"/>
-						</p:selectBooleanCheckbox>
-					</f:facet>	<!-- mirar colocacion checkbox -->
+					<f:facet name="footer">
+						<div align="center">
+							<p:commandButton id="create-task-button" value="#{msgs.crearTarea}" onclick="PF('create-task-dialog').show();" />
+							<p:commandButton id="edit-task-button" value="#{msgs.editarTarea}" actionListener="#{editTask.load(tasks.selected.id)}" 
+								update="form-edit-task" disabled="#{tasks.disabled}" />
+							<p:commandButton id="finish-task-button" value="#{msgs.finalizarTarea}" actionListener="#{tasks.finishTask}" 
+								disabled="#{tasks.disabled}" />
+						</div>
+					</f:facet>
 				</p:panel>
-				<p:commandButton value="#{msgs.crearTarea}" onclick="PF('create-task-dialog').show();" />
-				<p:commandButton value="#{msgs.editarTarea}" actionListener="#{editTask.load(tasks.selected.id)}" update="form-edit-task" />
 			</h:form>
 			
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />

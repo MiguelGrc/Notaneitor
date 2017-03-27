@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import alb.util.date.DateUtil;
 
@@ -35,7 +36,8 @@ public class TasksBean {
 	private User user;
 	private Task selected;
 	private String actual;
-	
+	private boolean disabled = true;
+
 	@ManagedProperty(value = "#{createTask}")
 	private CreateTaskBean createTaskBean;
 	
@@ -56,6 +58,14 @@ public class TasksBean {
 
 	public void setCreateTaskBean(CreateTaskBean createTaskBean) {
 		this.createTaskBean = createTaskBean;
+	}
+	
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 
 	public String getActual() {
@@ -132,6 +142,7 @@ public class TasksBean {
 			if(showFinished){
 				tasks.addAll(tService.findFinishedInboxTasksByUserId(user.getId()));
 			}
+			disabled = true;
 			
 			return "listadoTareas";
 		}
@@ -150,6 +161,7 @@ public class TasksBean {
 			tService = Services .getTaskService();
 			
 			tasks = tService.findTodayTasksByUserId(user.getId());
+			disabled = true;
 			
 			return "listadoTareas";
 		}
@@ -167,6 +179,7 @@ public class TasksBean {
 			tService = Services .getTaskService();
 			
 			tasks = tService.findWeekTasksByUserId(user.getId());
+			disabled = true;
 			
 			return "listadoTareas";
 		}
@@ -267,12 +280,16 @@ public class TasksBean {
 	}
 	
 	public void editTask(){
-		Task t = new Task();
+		Task t = editTaskBean.getTask();
 		
 		t.setTitle(editTaskBean.getTitle());
 		t.setPlanned(editTaskBean.getPlanned());
 		t.setComments(editTaskBean.getComments());
-		t.setCategoryId(editTaskBean.getCategoryId());
+		
+		if(editTaskBean.getCategoryId() == 0)
+			t.setCategoryId(null);
+		else
+			t.setCategoryId(editTaskBean.getCategoryId());
 		
 		TaskService tService = Services.getTaskService();
 		try {
@@ -284,6 +301,24 @@ public class TasksBean {
 		
 		reloadList(actual);
 		RequestContext.getCurrentInstance().execute("PF('edit-task-dialog').hide();");
+	}
+	
+	public void finishTask(){
+		if(selected == null || finished(selected))
+			return;
+		
+		TaskService tService = Services.getTaskService();
+		
+		try {
+			tService.markTaskAsFinished(selected.getId());
+			
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		reloadList(actual);
+		RequestContext.getCurrentInstance().update("form-tasks");
 	}
 	
 	private void reloadList(String list){
@@ -310,6 +345,13 @@ public class TasksBean {
 //		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
 //		DataTable table = (DataTable) viewRoot.findComponent("form-tasks:table-tasks");
 //		table.resetValue();
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+		if(!finished(selected))
+			disabled = false;
+		else
+			disabled = true;
 	}
 	
 	

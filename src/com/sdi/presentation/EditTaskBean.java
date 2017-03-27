@@ -78,7 +78,9 @@ public class EditTaskBean {
 			planned = task.getPlanned();
 			comments = task.getComments();
 			
-			if(task.getCategoryId() != null)
+			if(task.getCategoryId() == null)
+				categoryId = 0;
+			else
 				categoryId = task.getCategoryId();
 			
 			RequestContext.getCurrentInstance().execute("PF('edit-task-dialog').show();");

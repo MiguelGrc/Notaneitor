@@ -45,8 +45,10 @@
 						actionListener="#{settings.setEnglish}" update="@all" immediate="true">
 					</p:menuitem>
 				</p:submenu>
-				<p:menuitem id="item-cerrarSesion" value="#{msgs.cerrarSesion}" action="#{login.logout}" 
-					rendered="#{sessionScope.logedUser != null}" style="position:absolute; right:145px;" ></p:menuitem>
+				<f:facet name="options">
+					<p:commandButton value="#{msgs.cerrarSesion}" action="#{login.logout}" rendered="#{sessionScope.logedUser != null}"
+						style="background-color:transparent; color:black; border-color:black;" />
+        		</f:facet>
 				<ui:insert name="extender-menu"></ui:insert>
 			</p:menubar>
 
