@@ -1,37 +1,53 @@
 package com.sdi.presentation;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIViewRoot;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
+
+import alb.util.date.DateUtil;
 
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
-import com.sdi.business.UserService;
+import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 import com.sdi.dto.User;
 
 @ManagedBean(name="tasks")
-@SessionScoped
+@ViewScoped
 public class TasksBean {
 	
 	private List<Task> tasks;
 	
 	//TODO: mirar si es mejor crear otra clase?
-	private List<Category> categories;
+	private Map<String, String> categories;
 	private boolean showFinished;
 	private User user;
 	private Task selected;
 	private String actual;
 	
+	@ManagedProperty(value = "#{createTask}")
+	private CreateTaskBean createTaskBean;
+
+	public CreateTaskBean getCreateTaskBean() {
+		return createTaskBean;
+	}
+
+	public void setCreateTaskBean(CreateTaskBean createTaskBean) {
+		this.createTaskBean = createTaskBean;
+	}
+
 	public String getActual() {
 		return actual;
 	}
@@ -72,19 +88,21 @@ public class TasksBean {
 		this.tasks = tasks;
 	}
 	
-	public List<Category> getCategories() {
+	public Map<String, String> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(List<Category> categories) {
+	public void setCategories(Map<String, String> categories) {
 		this.categories = categories;
 	}
-	
+
 	
 	@PostConstruct
 	public void init(){
 		user = (User) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get(new String("logedUser"));
+		
+		categories = new HashMap<>();
 		
 		//TODO: esto estaría bien?
 		listarInbox();
@@ -105,6 +123,10 @@ public class TasksBean {
 				tasks.addAll(tService.findFinishedInboxTasksByUserId(user.getId()));
 			}
 			
+			DataTable dt = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
+					.findComponent("form-tasks:table-tasks");
+			dt.setFirst(0);
+			
 			return "listadoTareas";
 		}
 		catch(Exception e){
@@ -123,6 +145,10 @@ public class TasksBean {
 			
 			tasks = tService.findTodayTasksByUserId(user.getId());
 			
+			DataTable dt = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
+					.findComponent("form-tasks:table-tasks");
+			dt.setFirst(0);
+			
 			return "listadoTareas";
 		}
 		catch(Exception e){
@@ -139,6 +165,10 @@ public class TasksBean {
 			tService = Services .getTaskService();
 			
 			tasks = tService.findWeekTasksByUserId(user.getId());
+			
+			DataTable dt = (DataTable) FacesContext.getCurrentInstance().getViewRoot()
+					.findComponent("form-tasks:table-tasks");
+			dt.setFirst(0);
 			
 			return "listadoTareas";
 		}
@@ -164,19 +194,17 @@ public class TasksBean {
 		}
 	}
 	
-	public String listarCategorias(){
+	public void listarCategorias(){
 		TaskService tService;
+		List<Category> cat;
 		try{
 			tService=Services.getTaskService();
-			
-			categories=tService.findCategoriesByUserId(user.getId());
-			
-			return "listadoTareas";
-			
+			cat = tService.findCategoriesByUserId(user.getId());
+			for(Category c : cat)
+				categories.put(c.getName(), String.valueOf(c.getId()));			
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			return "error";
 		}
 	}
 	
@@ -202,6 +230,52 @@ public class TasksBean {
 			}
 		}
 		return " ";
+	}
+	
+	public void createTask(){
+		String redirect = actual;
+		Task t = new Task();
+		t.setTitle(createTaskBean.getTitle());
+		t.setPlanned(createTaskBean.getPlanned());
+		
+		if(t.getPlanned().after(DateUtil.yesterday()) && t.getPlanned().before(DateUtil.tomorrow()))
+			redirect = "hoy";
+		else if(t.getPlanned().after(DateUtil.today()))
+			redirect = "semana";
+		
+		t.setComments(createTaskBean.getComments());
+		
+		if(createTaskBean.getCategoryId() != 0)
+			t.setCategoryId(createTaskBean.getCategoryId());
+		else
+			redirect = "inbox";
+		
+		t.setCreated(new Date());
+		User u = (User) FacesContext.getCurrentInstance().getExternalContext()
+				.getSessionMap().get("logedUser");
+		t.setUserId(u.getId());
+		
+		TaskService tService = Services.getTaskService();
+		try {
+			tService.createTask(t);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		reloadList(redirect);
+		createTaskBean.init();
+		RequestContext.getCurrentInstance().execute("PF('create-task-dialog').hide();");
+		
+	}
+	
+	private void reloadList(String list){
+		if(list == "inbox")
+			listarInbox();
+		else if(list== "hoy")
+			listarHoy();
+		else if(list == "semana")
+			listarSemana();
 	}
 	
 //	public String editTask(Task tarea){

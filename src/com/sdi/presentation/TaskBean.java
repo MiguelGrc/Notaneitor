@@ -9,8 +9,8 @@ import com.sdi.business.TaskService;
 import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.Task;
 
-public class taskBean {
-	//Esta clase actua como un "adapter" de la clase poriginal Task
+public class TaskBean {
+	//Esta clase actua como un "adapter" de la clase original Task
 	
 	private Task task;
 	
@@ -27,11 +27,11 @@ public class taskBean {
 	private Long categoryId;
 	private Long userId;
 	
-	public taskBean(){
+	public TaskBean(){
 		task=new Task();
 	}
 	
-	public taskBean(Task task){
+	public TaskBean(Task task){
 		this.task=task;
 	}
 	

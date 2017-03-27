@@ -21,7 +21,7 @@
 				<p:panel header="#{msgs.tituloOperacionTareas} - #{msgs[tasks.actual]}">
 					<p:dataTable id="table-tasks" var="task" value="#{tasks.tasks}" selectionMode="single" widgetVar="tbWidget"
 						selection="#{tasks.selected}" rowKey="#{task.id}"
-						emptyMessage="#{msgs.listaVacia}" paginator="true" paginatorPosition="bottom"
+						emptyMessage="#{msgs.listaVacia}" paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                         rows="8" rowStyleClass="#{tasks.delayed(task) ? (tasks.finished(task) ? 'finish' : 'delay') : (tasks.finished(task) ? 'finish' : null)}" 
                         sortBy="#{tasks.actual eq 'inbox' ? task.planned : ''}">
@@ -57,7 +57,39 @@
 						</p:selectBooleanCheckbox>
 					</f:facet>	<!-- mirar colocacion checkbox -->
 				</p:panel>
+				<p:commandButton value="#{msgs.crearTarea}" onclick="PF('create-task-dialog').show();" />
 			</h:form>
+			
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+			
+			<p:dialog header="#{msgs.crearTarea}" modal="true" widgetVar="create-task-dialog" resizable="false">
+				<h:form id="form-create-task">
+					<div class="ui-fluid">
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="task-title" value="#{msgs.tituloColumnaTareaTitulo}:" />
+							<p:inputText id="task-title" value="#{createTask.title}" required="true" label="task-title" 
+								requiredMessage="#{msgs.form_create_createTask_requiredMessage}"/>
+							<h:outputLabel for="task-comments" value="#{msgs.comentarios}:" />
+							<p:inputTextarea id="task-comments" rows="4" cols="35" value="#{createTask.comments}" label="task-comments" />
+							<h:outputLabel for="task-category-selector" value="#{msgs.tituloColumnaTareaCategoria}:" />
+							<p:selectOneMenu id="task-category-selector" value="#{createTask.categoryId}">
+								<f:selectItem itemValue="0" itemLabel="- #{msgs.ninguna} -" />
+								<f:selectItems value="#{tasks.categories}" />
+							</p:selectOneMenu>
+							<h:outputLabel for="task-planned" value="#{msgs.tituloColumnaTareaPlaneada}:" />
+							<p:calendar id="task-planned" value="#{createTask.planned}" mindate="#{createTask.planned}" />
+							<f:facet name="footer">
+								<p:commandButton id="task-create-button" value="#{msgs.crearTarea}" actionListener="#{tasks.createTask}" 
+									update="growl @form form-tasks"/>
+							</f:facet>
+						</h:panelGrid>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			
+			
+			
 		</center>
 
 	</ui:define>
