@@ -8,8 +8,15 @@
 	
 <f:view locale="#{settings.locale}">
 	<h:head>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
 		<title>#{msgs.tituloHead}</title>
-		<style type="text/css">	<!-- style for task list tables -->
+		<style type="text/css">	
+			h1, h2{
+				font-family: 'Roboto', sans-serif;
+			}
+		
+		
+			<!-- style for task list tables -->
 			.delay {
 				animation-name: blink-delay;
 				animation-duration: 1s;
@@ -32,7 +39,7 @@
 		<h:form id="form-cabecera">
 			<center>
 				<h1>#{msgs.tituloAplicacion1}</h1>
-				
+
 				<h2>#{msgs.tituloAplicacion2}</h2>
 			</center>
 			<br />
@@ -46,8 +53,8 @@
 					</p:menuitem>
 				</p:submenu>
 				<f:facet name="options">
-					<p:commandButton value="#{msgs.cerrarSesion}" action="#{login.logout}" rendered="#{sessionScope.logedUser != null}"
-						style="background-color:transparent; color:black; border-color:black;" />
+					<p:commandButton id="item-cerrarSesion" value="#{msgs.cerrarSesion}" action="#{login.logout}" 
+					rendered="#{sessionScope.logedUser != null}" style="background-color:transparent; color:black; border-color:black;" />
         		</f:facet>
 				<ui:insert name="extender-menu"></ui:insert>
 			</p:menubar>

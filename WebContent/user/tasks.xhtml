@@ -33,14 +33,20 @@
 							<h:outputText value="#{task.title}" />
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaTareaCreada}">
-							<h:outputText value="#{task.created}" />
+							<h:outputText value="#{task.created}">
+								<f:convertDateTime type="date" dateStyle="full" timeZone="CET" />
+							</h:outputText>
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaTareaPlaneada}"
 							sortBy="#{task.planned}" sortable="#{tasks.actual eq 'semana' or tasks.actual eq 'hoy'}">
-							<h:outputText value="#{task.planned}" />
+							<h:outputText value="#{task.planned}">
+								<f:convertDateTime type="date" dateStyle="full" timeZone="CET" />
+							</h:outputText>
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaTareaFinalizada}" rendered="#{tasks.showFinished}">
-							<h:outputText value="#{task.finished}" />
+							<h:outputText value="#{task.finished}">
+								<f:convertDateTime type="date" dateStyle="full" timeZone="CET" />
+							</h:outputText>
 						</p:column>
 						<p:column headerText="#{msgs.tituloColumnaTareaCategoria}"
 							sortBy="#{tasks.userCat(task)}" sortable="#{tasks.actual eq 'hoy'}" rendered="#{tasks.actual ne 'inbox'}">
