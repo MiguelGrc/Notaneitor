@@ -56,7 +56,7 @@
 							<h:outputText value="#{task.comments}" />
 						</p:column>
 						<f:facet name="#{tasks.actual eq 'inbox' ? 'footer' : ''}">
-							<p:selectBooleanCheckbox  value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
+							<p:selectBooleanCheckbox id="finished-checkbox" value="#{tasks.showFinished}" itemLabel="#{msgs.mostrarFinalizadas}">
 								<p:ajax update="table-tasks" listener="#{tasks.listarInbox}"/>
 							</p:selectBooleanCheckbox>
 						</f:facet>
