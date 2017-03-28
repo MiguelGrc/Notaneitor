@@ -2,10 +2,14 @@ package com.sdi.presentation;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+
+import alb.util.log.Log;
+import alb.util.log.LogLevel;
 
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
@@ -38,6 +42,12 @@ public class LoginBean implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@PostConstruct
+	public void init(){
+		//Inicializamos el log para este usuario.
+		Log.setLogLevel(LogLevel.DEBUG);
 	}
 
 
