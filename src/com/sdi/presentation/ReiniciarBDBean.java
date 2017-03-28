@@ -8,11 +8,11 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import alb.util.date.DateUtil;
+import alb.util.log.Log;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
-import com.sdi.business.UserService;
 import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 import com.sdi.dto.User;
@@ -20,22 +20,15 @@ import com.sdi.persistence.impl.UserDaoJdbcImpl;
 
 @ManagedBean(name = "reiniciar")
 @ApplicationScoped
-public class ReiniciarBD {
+public class ReiniciarBDBean {
 
 	public void reiniciar() {
 		AdminService aServ;
 		TaskService tServ;
-		UserService uServ;
-
-		// String[][] usuarios={{"user1","user1","1",
-		// "user1@gmail.com"},{"user2","user2","2", "user2@gmail.com"},
-		// {"user3","user3","3", "user3@gmail.com"}};
-		// String[][] categorias={{"categoría1","1","1"}}
 
 		try {
 			aServ = Services.getAdminService();
 			tServ = Services.getTaskService();
-			uServ = Services.getUserService();
 
 			UserDaoJdbcImpl dUser = new UserDaoJdbcImpl();
 
@@ -44,6 +37,7 @@ public class ReiniciarBD {
 				if (!u.getIsAdmin())
 					aServ.deepDeleteUser(u.getId());
 			}
+			Log.debug("Usuarios borrados de la BD");
 
 			List<User> usuariosNuevos = new ArrayList<User>();
 			for (int i = 1; i <= 3; i++) {
@@ -53,18 +47,10 @@ public class ReiniciarBD {
 						.setPassword("user" + i));
 				usuariosNuevos.add(usuario);
 			}
+			Log.debug("Usuarios cargados en la BD");
 
-			// User usuario1 = new User();
-			// usuario1.setEmail("user1@gmail.com").setId(new Long())
-			// .setLogin("user1").setPassword("user1");
-			// uServ.registerUser(usuario1);
 			List<Category> categNuevas = new ArrayList<Category>();
 			usuariosNuevos = aServ.findAllUsers();
-			// for(User u: usuariosNuevos){
-			// if(u.getIsAdmin()){
-			// usuariosNuevos.remove(u);
-			// }
-			// }
 
 			int j = 1;
 			for (User u : usuariosNuevos) {
@@ -79,6 +65,7 @@ public class ReiniciarBD {
 					}
 				}
 			}
+			Log.debug("Categorías cargadas en la BD");
 			
 			List<Task> nuevasTareas = new ArrayList<Task>();
 			j = 1;
@@ -125,9 +112,9 @@ public class ReiniciarBD {
 								.setCategoryId(categ.getId()));
 						j++;
 					}
-				
 				}
 			}
+			Log.debug("Tareas cargadas en la BD");
 			
 
 			//Las mezclamos para poder ordenadarlas luego:
@@ -137,16 +124,8 @@ public class ReiniciarBD {
 			for(Task t: nuevasTareas)
 				tServ.createTask(t);
 
-			// User usuario2 = new User();
-			// usuario2.setEmail("user2@gmail.com").setId(new Long(2))
-			// .setLogin("user2").setPassword("user2");
-
-			// User usuario3= new User();
-			// usuario3.setEmail("user3@gmail.com").setId(new Long(3))
-			// .setLogin("user3").setPassword("user3");
-
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.error(ex);
 		}
 	}
 

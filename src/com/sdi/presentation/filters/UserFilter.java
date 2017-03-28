@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import alb.util.log.Log;
+
 import com.sdi.dto.User;
 
 /**
@@ -58,6 +60,8 @@ public class UserFilter implements Filter {
 			String loginForm = config.getInitParameter("LoginParam");
 			// Si no hay login, redirección al formulario de login
 			res.sendRedirect(req.getContextPath() + loginForm);
+			
+			Log.debug("El usuario no es usuario normal. Redireccionando a login");
 			return;
 		}
 		chain.doFilter(request, response);

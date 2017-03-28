@@ -10,9 +10,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
+import alb.util.log.Log;
+
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
-import com.sdi.business.exception.BusinessException;
 import com.sdi.dto.User;
 
 @ManagedBean(name = "register")
@@ -58,10 +59,12 @@ public class RegisterBean implements Serializable {
 			
 			u.setLogin(login).setPassword(password).setEmail(email);
 			uService.registerUser(u);
+			password = "";
+			Log.debug("Usuario %s registrado", login);
 			return "success";
-		} catch(BusinessException e){
-			e.printStackTrace();
-			return "error";					//TODO check
+		} catch(Exception e){
+			Log.error(e);
+			return "error";
 		}		
 	}
 	

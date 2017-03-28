@@ -11,6 +11,8 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.SelectEvent;
 
+import alb.util.log.Log;
+
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.exception.BusinessException;
@@ -26,13 +28,13 @@ public class UsersBean {
 	private boolean disabled = true;
 	
 	@ManagedProperty(value="#{reiniciar}")
-	private ReiniciarBD reiniciarBD;
+	private ReiniciarBDBean reiniciarBD;
 
-	public ReiniciarBD getReiniciarBD() {
+	public ReiniciarBDBean getReiniciarBD() {
 		return reiniciarBD;
 	}
 
-	public void setReiniciarBD(ReiniciarBD reiniciarBD) {
+	public void setReiniciarBD(ReiniciarBDBean reiniciarBD) {
 		this.reiniciarBD = reiniciarBD;
 	}
 
@@ -60,11 +62,6 @@ public class UsersBean {
 		this.users = users;
 	}
 	
-	public UsersBean(){
-		//Quizas es mejor otra opcion, como añadir siempre un listener a todas las peticiones y hacerlo session scoped otra vez.
-		//users = filtrarNoAdmin(aService.findAllUsers());
-	}
-	
 	@PostConstruct
 	public void init(){
 		listarNoAdmins();
@@ -74,17 +71,16 @@ public class UsersBean {
 		AdminService aService;
 		try{
 			aService= Services.getAdminService();
-			// Si no funciona casting a Alumno[]
 			users = filtrarNoAdmin(aService.findAllUsers());
 			
-			return "listado"; //Quizas mejor con a nomenclatura exit y cambiar mapa de navegacion.
+			Log.debug("Usuarios listados");
+			return "success";
 		}catch(Exception e){
+			Log.error(e);
 			return "error";
 		}
 		
 	}
-	
-	//TODO: SI SE REGISTRA UN NUEVO USUARIO, NO APARECE EN LA LISTA DEL ADMIN HASTA QUE SE REINICIA LA APLICACION!!!
 	
 	private List<User> filtrarNoAdmin(List<User> usuarios){
 		List<User> noAdminUsers = new ArrayList<User>();
@@ -102,11 +98,12 @@ public class UsersBean {
 			service = Services.getAdminService();
 			if(selected != null){
 				service.deepDeleteUser(selected.getId());
+				Log.debug("Usuario %s eliminado", selected.getLogin());
 				// Actualizamos el javabean de users inyectado en la tabla.
 				users = filtrarNoAdmin(service.findAllUsers());
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.error(ex);
 		}
 	}
 	
@@ -115,25 +112,28 @@ public class UsersBean {
 		try {
 			service = Services.getAdminService();
 			if(selected != null){
-				if(selected.getStatus() == UserStatus.ENABLED)
+				if(selected.getStatus() == UserStatus.ENABLED){
 					service.disableUser(selected.getId());
+					Log.debug("Usuario %s deshabilitado", selected.getLogin());
+				}
 				else
 					service.enableUser(selected.getId());
+				Log.debug("Usuario %s habilitado", selected.getLogin());
 				// Actualizamos el javabean de users inyectado en la tabla.
 				users = filtrarNoAdmin(service.findAllUsers());
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.error(ex);
 		}
 	}
 	
 	public void reiniciarBDAction(ActionEvent e){
 		try {
 			reiniciarBD.reiniciar();
+			Log.debug("Base de datos reiniciada");
 			users = filtrarNoAdmin(Services.getAdminService().findAllUsers());
 		} catch (BusinessException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			Log.error("Error al reiniciar la base de datos");
 		}
 	}
 	

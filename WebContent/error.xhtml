@@ -11,16 +11,19 @@
 
 	<ui:define name="cuerpo">
 		<h:form id="form-principal">
+		<center>
 		<p:panel header="#{msgs.tituloOperacionError}">
 		 <h1>#{msgs.mensajeError1}</h1>
 		 <p>#{msgs.mensajeError2}</p>
 		 <p>#{msgs.mensajeError3}</p>
 		 </p:panel>
+		 </center>
 		 </h:form>
 	</ui:define>
-
+	
 	<ui:define name="pie">
-		<ui:include src="/snippets/pie-casa.xhtml" />
+		<br />
+		<center><p:commandButton value="#{msgs.enlaceCasa}" action="/login.xhtml" /></center>
 	</ui:define>
 
 </ui:composition>

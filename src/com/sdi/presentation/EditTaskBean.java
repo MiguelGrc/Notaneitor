@@ -8,6 +8,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 
+import alb.util.log.Log;
+
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
 import com.sdi.business.exception.BusinessException;
@@ -22,8 +24,16 @@ public class EditTaskBean {
 	private String comments;
 	private long categoryId;
 	
+	private Date today;
+
 	private Task task;
 	
+	public Date getToday() {
+		return today;
+	}
+	public void setToday(Date today) {
+		this.today = today;
+	}
 	public Task getTask() {
 		return task;
 	}
@@ -61,12 +71,13 @@ public class EditTaskBean {
 		this.planned = new Date();
 		comments = null;
 		categoryId = 0;
+		
+		today = new Date();
 	}
 	
 	//We load the task from the DB
 	public void load(String id){
 		if(id.isEmpty()){
-			System.out.println("EMPRYYYYYY");
 			return;
 		}
 		
@@ -86,8 +97,7 @@ public class EditTaskBean {
 			RequestContext.getCurrentInstance().execute("PF('edit-task-dialog').show();");
 			
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.error(e);
 		}
 	}
 

@@ -16,6 +16,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import alb.util.date.DateUtil;
+import alb.util.log.Log;
 
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
@@ -30,7 +31,6 @@ public class TasksBean {
 	
 	private List<Task> tasks;
 	
-	//TODO: mirar si es mejor crear otra clase?
 	private Map<String, String> categories;
 	private boolean showFinished;
 	private User user;
@@ -123,11 +123,9 @@ public class TasksBean {
 				.getExternalContext().getSessionMap().get(new String("logedUser"));
 		
 		categories = new HashMap<>();
-		
-		//TODO: esto estaría bien?
+
 		listarInbox();
 		listarCategorias();
-		
 	}
 	
 
@@ -144,10 +142,11 @@ public class TasksBean {
 			}
 			disabled = true;
 			
-			return "listadoTareas";
+			Log.debug("Listadas tareas en Inbox");
+			return "success";
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			Log.error(e);
 			return "error";
 		}
 		
@@ -163,10 +162,11 @@ public class TasksBean {
 			tasks = tService.findTodayTasksByUserId(user.getId());
 			disabled = true;
 			
-			return "listadoTareas";
+			Log.debug("Listadas tareas en Hoy");
+			return "success";
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			Log.error(e);
 			return "error";
 		}
 		
@@ -181,26 +181,11 @@ public class TasksBean {
 			tasks = tService.findWeekTasksByUserId(user.getId());
 			disabled = true;
 			
-			return "listadoTareas";
+			Log.debug("Listadas tareas en Semana");
+			return "success";
 		}
 		catch(Exception e){
-			e.printStackTrace();
-			return "error";
-		}
-	}
-	
-	public String listarCategoria(Category categoria){
-		TaskService tService;
-		try{
-			tService = Services.getTaskService();
-			
-			//Quizas mejor por solo ID
-			tasks = tService.findTasksByCategoryId(categoria.getId());
-			
-			return "listadoTareas";
-		}
-		catch(Exception e){
-			e.printStackTrace();
+			Log.error(e);
 			return "error";
 		}
 	}
@@ -212,10 +197,10 @@ public class TasksBean {
 			tService=Services.getTaskService();
 			cat = tService.findCategoriesByUserId(user.getId());
 			for(Category c : cat)
-				categories.put(c.getName(), String.valueOf(c.getId()));			
+				categories.put(c.getName(), String.valueOf(c.getId()));
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			Log.error(e);
 		}
 	}
 	
@@ -227,7 +212,7 @@ public class TasksBean {
 		return t.getFinished() != null;
 	}
 	
-	public String userCat(Task t){	//TODO change
+	public String userCat(Task t){
 		Long id = t.getCategoryId();
 		TaskService tService;
 		if(t.getCategoryId() != null){
@@ -236,9 +221,9 @@ public class TasksBean {
 				Category cat = tService.findCategoryById(id);
 				return cat.getName();
 			} catch(Exception e){
-				e.printStackTrace();
-				return " ";
-			}
+				Log.error(e);
+				return " ";		//Si devolvemos "" el método se intepreta como Action Controller
+			}					//y refresca la vista al ser string vacía.
 		}
 		return " ";
 	}
@@ -269,12 +254,13 @@ public class TasksBean {
 		TaskService tService = Services.getTaskService();
 		try {
 			tService.createTask(t);
+			Log.debug("Creada tarea %s", t.getTitle());
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.error(e);
 		}
 		
 		reloadList(redirect);
+		Log.debug("Redirección a %s", redirect);
 		createTaskBean.init();
 		RequestContext.getCurrentInstance().execute("PF('create-task-dialog').hide();");
 	}
@@ -294,9 +280,9 @@ public class TasksBean {
 		TaskService tService = Services.getTaskService();
 		try {
 			tService.updateTask(t);
+			Log.debug("Editada tarea %s", t.getTitle());
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.error(e);
 		}
 		
 		reloadList(actual);
@@ -311,10 +297,10 @@ public class TasksBean {
 		
 		try {
 			tService.markTaskAsFinished(selected.getId());
+			Log.debug("Marcada como finalizada tarea %s", selected.getTitle());
 			
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.error(e);
 		}
 		
 		reloadList(actual);
@@ -330,21 +316,9 @@ public class TasksBean {
 			listarSemana();
 	}
 	
-//	public String editTask(Task tarea){
-//		TaskService tService;
-//		try{
-//			
-//		}
-//		catch{
-//			
-//		}
-//	}
-	
 	public void changeFilter(ActionEvent e){
 		showFinished=!showFinished;
-//		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-//		DataTable table = (DataTable) viewRoot.findComponent("form-tasks:table-tasks");
-//		table.resetValue();
+		Log.debug(showFinished ? "Mostradas tareas finalizadas" : "Ocultadas tareas finalizadas");
 	}
 	
 	public void onRowSelect(SelectEvent event) {
